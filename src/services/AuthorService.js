@@ -1,8 +1,9 @@
 import axios from 'axios'
 import store from '@/store/store.js'
 
-//const apiURL = process.env.VUE_API_URI
-const apiURL = 'https://create.myfriends.network/api/'
+const apiURL =  process.env.VUE_APP_API_URL
+const backEnd = process.env.VUE_APP_STANDARD_BACKEND
+
 console.log(apiURL)
 
 const apiSECURE = axios.create({
@@ -23,7 +24,7 @@ export default {
     var response ={}
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=' + what + '&action=' + what,
+      'AuthorApi.php?backend=' + backEnd + '&page=' + what + '&action=' + what,
       contentForm
     )
     if (typeof res.data.content != undefined) {
@@ -36,7 +37,7 @@ export default {
   async debug(params) {
     console.log('debug')
     var contentForm = this.toAuthorizedFormData(params)
-    var action = 'AuthorApi.php?page=debug&action=' + params.action
+    var action = 'AuthorApi.php?backend=' + backEnd + '&page=debug&action=' + params.action
     apiSECURE.post(action, contentForm)
   },
 
@@ -45,7 +46,7 @@ export default {
   async deleteTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
-      'AuthorApi.php?page=deleteTeam&action=deleteTeam',
+      'AuthorApi.php?backend=' + backEnd + '&page=deleteTeam&action=deleteTeam',
       contentForm
     )
     return response
@@ -54,7 +55,7 @@ export default {
   async deleteUser(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
-      'AuthorApi.php?page=deleteUser&action=deleteUser',
+      'AuthorApi.php?backend=' + backEnd + '&page=deleteUser&action=deleteUser',
       contentForm
     )
     //  console.log('response from  deleteUser')
@@ -65,7 +66,7 @@ export default {
   async getItemsCelebrationSet(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=getItemsCelebrationSet&action=getItemsCelebrationSet',
+      'AuthorApi.php?backend=' + backEnd + '&page=getItemsCelebrationSet&action=getItemsCelebrationSet',
       contentForm
     )
     let response = JSON.parse(res.data.content)
@@ -74,7 +75,7 @@ export default {
   async getItemsMember(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=getItemsMember&action=getItemsMember',
+      'AuthorApi.php?backend=' + backEnd + '&page=getItemsMember&action=getItemsMember',
       contentForm
     )
     let response = JSON.parse(res.data.content)
@@ -83,7 +84,7 @@ export default {
   async getItemsStandard(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=getItemsStandard&action=getItemsStandard',
+      'AuthorApi.php?backend=' + backEnd + '&page=getItemsStandard&action=getItemsStandard',
       contentForm
     )
     let response = JSON.parse(res.data.content)
@@ -92,7 +93,7 @@ export default {
   async getItemsTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=getItemsTeam&action=getItemsTeam',
+      'AuthorApi.php?backend=' + backEnd + '&page=getItemsTeam&action=getItemsTeam',
       contentForm
     )
     let response = JSON.parse(res.data.content)
@@ -101,10 +102,11 @@ export default {
 
   async login(params) {
     console.log('login')
+    console.log (backEnd)
     console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
-      'AuthorApi.php?action=login',
+      'AuthorApi.php?backend=' + backEnd + '&action=login',
       contentForm
     )
     return response
@@ -113,7 +115,7 @@ export default {
   async updateProgressPageEntry(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=updateProgressPageEntry&action=updateProgressPageEntry',
+      'AuthorApi.php?backend=' + backEnd + '&page=updateProgressPageEntry&action=updateProgressPageEntry',
       contentForm
     )
     var response = null
@@ -141,7 +143,7 @@ export default {
   async updateUser(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
-      'AuthorApi.php?page=updateUser&action=updateUser',
+      'AuthorApi.php?backend=' + backEnd + '&page=updateUser&action=updateUser',
       contentForm
     )
     return response

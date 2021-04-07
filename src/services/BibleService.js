@@ -1,8 +1,11 @@
 import axios from 'axios'
 import store from '@/store/store.js'
 
+const apiURL =  process.env.VUE_APP_API_URL
+const backEnd = process.env.VUE_APP_STANDARD_BACKEND
+
 const apiSELECT = axios.create({
-  baseURL: process.env.VUE_API_URL,
+  baseURL: process.env.VUE_APP_API_URL,
   withCredentials: false, // This is the default
   crossDomain: true,
   headers: {

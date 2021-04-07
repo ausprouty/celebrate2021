@@ -1,6 +1,5 @@
 <?php
 
-<?php
 
 function getProgressPageEntry($params){
 	$out = [];

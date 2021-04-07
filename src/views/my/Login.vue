@@ -83,6 +83,7 @@ export default {
           params.email = this.email
           params.password = this.password
           let res = await AuthorService.login(params)
+          console.log (res)
           if (res.data.content) {
             response = res.data.content
             response.token = res.data.token
@@ -125,6 +126,9 @@ export default {
         })
       }
     }
+    this.email = process.env.VUE_DEFAULT_EMAIL
+    this.email = 'bob.prouty@powertochange.org.au'
+    console.log ('backend is ' . process.env.VUE_APP_STANDARD_BACKEND)
   }
 }
 </script>

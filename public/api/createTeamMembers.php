@@ -42,15 +42,16 @@ function createTeamMembers($p){
             // add user to team
             $uid = getUidFromEmail($email);
             $sql = "INSERT INTO members ( uid, tid, date_started)
-                VALUES (:uid, :tid, :date_started);
+                VALUES (:uid, :tid, :date_started)";
             $data= array(
                 'uid' => $uid,
                 'tid' => $tid,
                 'date_started' => time()
-                );
+            );
+            sqlSafe($sql, $data);
         }
         if ($unique != 1){
-            $out['debug'] .=  $email . ' is not unique' . "\n";
+            $out['debug'] .=  $email . ' is not unique ' . "\n";
         }
     }
     return $out;
