@@ -9,7 +9,7 @@ if (isset ($_GET['backend'])){
 	require_once ('.env.api.'. $_GET['backend'] .'.php');
 }
 else{
-	require_once ('.env.api.local.php');
+	require_once ('.env.api.remote.php');
 }
 myHeaders();  // get rid of CORS
 // assign variables
@@ -95,10 +95,9 @@ function writeLog($filename, $content){
 	}
 	if (ROOT_LOG){
 		$root_log = ROOT_LOG;
-		$root_log = 'c:/xampp/htdocs/log/';
 	}
 	else{
-		$root_log = 'c:/xampp/htdocs/log/';
+		$root_log = '/home/vx5ui10wb4ln/public_html/create/api/log/';
 	}
 	if (!file_exists($root_log)){
 		mkdir($root_log);
