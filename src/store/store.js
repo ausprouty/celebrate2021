@@ -41,7 +41,7 @@ export default new Vuex.Store({
     states: ['all', 'ACT', 'NSW', 'NT', 'QLD', 'SA', 'VIC', 'WA'],
     strategies: ['GCM'],
 
-    focus_areas: ['Cru', 'GCM', 'MyFriends', 'Shiftm2M'],
+    focus_areas: ['Cru', 'GCM', 'Generations', 'MyFriends', 'Shiftm2M'],
     months: [
       '',
       'January',

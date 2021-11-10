@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build":"vue-cli-service build --mode remote  --config webpack.prod.js",
     "build-celebrate": "vue-cli-service build --mode remote  --config webpack.prod.js",
-    "lint": "vue-cli-service lint",
-    "build_prod": "vue-cli-service build --mode production"
+    "lint": "vue-cli-service lint"
+
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^1.1.2",

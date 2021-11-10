@@ -80,7 +80,7 @@ export default {
           var params = {}
           var response = {}
           this.$store.dispatch('loginUser', [response])
-          params.email = this.email
+          params.email = this.email.toLowerCase()
           params.password = this.password
           let res = await AuthorService.login(params)
           console.log (res)
@@ -127,8 +127,7 @@ export default {
       }
     }
     this.email = process.env.VUE_DEFAULT_EMAIL
-    this.email = 'bob.prouty@powertochange.org.au'
-    console.log ('backend is ' . process.env.VUE_APP_STANDARD_BACKEND)
+    console.log ('backend is ' + process.env.VUE_APP_STANDARD_BACKEND)
   }
 }
 </script>

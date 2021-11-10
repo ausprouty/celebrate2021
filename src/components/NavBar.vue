@@ -1,7 +1,11 @@
 <template>
   <div id="nav">
     <router-link to="/">
-      <img class="nav-icon" alt="Home" src="/images/menu/ribbons/MyTopRibbon600.png" />
+      <img
+        class="nav-icon"
+        alt="Home"
+        src="/images/menu/ribbons/MyTopRibbon600.png"
+      />
     </router-link>
 
     <div class="container">
@@ -24,30 +28,48 @@
       <div class="breadcrumb float-right">{{ this.breadcrumb }}</div>
     </div>
     <div id="admin_menu" class="dropdown-content-admin">
-      <div v-for="menuItem in admin_menu" :key="menuItem.index" :menuItem="menuItem">
+      <div
+        v-for="menuItem in admin_menu"
+        :key="menuItem.index"
+        :menuItem="menuItem"
+      >
         <div
           class="item"
           style="cursor:pointer"
           @click="setNewSelectedOption(menuItem)"
-        >{{ menuItem.value }}</div>
+        >
+          {{ menuItem.value }}
+        </div>
       </div>
     </div>
     <div id="my_menu" class="dropdown-content-my">
-      <div v-for="menuItem in my_menu" :key="menuItem.index" :menuItem="menuItem">
+      <div
+        v-for="menuItem in my_menu"
+        :key="menuItem.index"
+        :menuItem="menuItem"
+      >
         <div
           class="item"
           style="cursor:pointer"
           @click="setNewSelectedOption(menuItem)"
-        >{{ menuItem.value }}</div>
+        >
+          {{ menuItem.value }}
+        </div>
       </div>
     </div>
     <div id="team_menu" class="dropdown-content-team">
-      <div v-for="menuItem in team_menu" :key="menuItem.index" :menuItem="menuItem">
+      <div
+        v-for="menuItem in team_menu"
+        :key="menuItem.index"
+        :menuItem="menuItem"
+      >
         <div
           class="item"
           style="cursor:pointer"
           @click="setNewSelectedOption(menuItem)"
-        >{{ menuItem.value }}</div>
+        >
+          {{ menuItem.value }}
+        </div>
       </div>
     </div>
   </div>
@@ -76,13 +98,13 @@ export default {
           show: true,
           link: 'adminTeams'
         },
-         {
+        {
           index: 1,
           value: 'Trainings',
           show: true,
           link: 'adminTrainings'
         },
-         {
+        {
           index: 2,
           value: 'Post to Cru',
           show: true,
@@ -100,44 +122,51 @@ export default {
           index: 0,
           value: 'Today',
           show: true,
-          link: 'myToday'
+          link: 'myToday',
+          url: 'my/today/'
         },
         {
           index: 1,
           value: "Let's Pray",
           show: true,
-          link: 'myPrayers'
+          link: 'myPrayers',
+           url: 'my/prayers/'
         },
         {
           index: 2,
           value: 'My Disciples',
           show: true,
-          link: 'myDisciples'
+          link: 'myDisciples',
+          url: 'my/disciples/'
         },
         {
           index: 3,
           value: 'My Month',
           show: true,
-          link: 'myMonth'
+          link: 'myMonth',
+          url: 'my/month/'
         },
         {
           index: 4,
           value: 'My Goals',
           show: true,
-          link: 'myGoals'
+          link: 'myGoals',
+          url: 'my/goals/'
         },
         {
           index: 5,
           value: 'My Year',
           show: true,
-          link: 'myYear'
+          link: 'myYear',
+           url: 'my/year/'
         },
 
         {
           index: 6,
           value: 'My Profile',
           show: true,
-          link: 'myProfile'
+          link: 'myProfile',
+          url: 'my/profile/'
         },
 
         {

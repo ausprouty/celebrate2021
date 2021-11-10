@@ -40,6 +40,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
@@ -84,12 +85,7 @@ export default new Router({
       component: AdminTeams,
       props: false
     },
-    {
-      path: '/my/:uid',
-      name: 'myProfile',
-      component: MyProfile,
-      props: true
-    },
+
     {
       path: '/my/disciples/:uid/:tid/:year?',
       name: 'myDisciples',
@@ -124,6 +120,12 @@ export default new Router({
       path: '/my/prayers/:uid/:tid/:month?/:year?',
       name: 'myPrayers',
       component: MyPrayers,
+      props: true
+    },
+    {
+      path: '/my/profile/:uid',
+      name: 'myProfile',
+      component: MyProfile,
       props: true
     },
     {
