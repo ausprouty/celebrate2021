@@ -96,25 +96,29 @@ export default {
           index: 0,
           value: 'Teams',
           show: true,
-          link: 'adminTeams'
+          link: 'adminTeams',
+          url: 'admin/teams/'
         },
         {
           index: 1,
           value: 'Trainings',
           show: true,
-          link: 'adminTrainings'
+          link: 'adminTrainings',
+          url: 'admin/trainings/'
         },
         {
           index: 2,
           value: 'Post to Cru',
           show: true,
-          link: 'adminPost'
+          link: 'adminPost',
+          url: 'admin/post/'
         },
         {
           index: 3,
           value: 'Celebration Sets',
           show: true,
-          link: 'adminCelebrationSets'
+          link: 'adminCelebrationSets',
+          url: 'admin/sets/'
         }
       ],
       my_menu: [
@@ -130,7 +134,7 @@ export default {
           value: "Let's Pray",
           show: true,
           link: 'myPrayers',
-           url: 'my/prayers/'
+          url: 'my/prayers/'
         },
         {
           index: 2,
@@ -158,7 +162,7 @@ export default {
           value: 'My Year',
           show: true,
           link: 'myYear',
-           url: 'my/year/'
+          url: 'my/year/'
         },
 
         {
@@ -173,7 +177,8 @@ export default {
           index: 8,
           value: 'Logout',
           show: true,
-          link: 'logout'
+          link: 'logout',
+          url: '/logout/'
         }
       ],
       team_menu: [
@@ -181,37 +186,43 @@ export default {
           index: 0,
           value: 'Our Team',
           show: true,
-          link: 'ourTeam'
+          link: 'ourTeam',
+          url: '/team/members/'
         },
         {
           index: 1,
           value: 'Monthly Progress',
           show: true,
-          link: 'teamMonth'
+          link: 'teamMonth',
+          url: '/team/month/'
         },
         {
           index: 2,
           value: 'Yearly Progress',
           show: true,
-          link: 'teamYear'
+          link: 'teamYear',
+          url: '/team/year/'
         },
         {
           index: 3,
           value: 'Team Goals',
           show: false,
-          link: 'teamGoals'
+          link: 'teamGoals',
+          url: '/team/goals/'
         },
         {
           index: 4,
           value: 'Team Events',
           show: false,
-          link: 'teamEvents'
+          link: 'teamEvents',
+          url: '/team/events/'
         },
         {
           index: 5,
           value: 'Team Profile',
           show: true,
-          link: 'teamProfile'
+          link: 'teamProfile',
+          url: '/team/profile/'
         }
       ]
     }
@@ -260,7 +271,17 @@ export default {
       }
     },
     setNewSelectedOption(selectedOption) {
-      this.showMenu = false
+      console.log(this.$route)
+      if (selectedOption.link == this.$route.name) {
+        document.getElementById('admin_menu').style.display = 'none'
+        this.show_admin = false
+        document.getElementById('my_menu').style.display = 'none'
+        this.show_my = false
+        document.getElementById('team_menu').style.display = 'none'
+        this.show_team = false
+        return
+      }
+
       if (typeof this.$route.params.uid == 'undefined') {
         this.$route.params.uid = this.my.uid
       }

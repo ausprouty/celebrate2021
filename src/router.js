@@ -4,10 +4,14 @@ import Router from 'vue-router'
 import Debug from './views/admin/Debug.vue'
 
 import Login from './views/my/Login.vue'
+import Logout from './views/my/Logout.vue'
 import AdminCelebrationSets from './views/admin/AdminCelebrationSets.vue'
 import AdminItem from './views/admin/AdminItem.vue'
 import AdminItemsSort from './views/admin/AdminItemsSort.vue'
+import AdminPost from './views/admin/AdminPost.vue'
 import AdminTeams from './views/admin/AdminTeams.vue'
+import AdminTrainings from './views/admin/AdminTrainings.vue'
+
 import MyGoals from './views/my/MyGoals.vue'
 import MyDisciples from './views/my/MyDisciples.vue'
 import MyItem from './views/my/MyItem.vue'
@@ -51,7 +55,7 @@ export default new Router({
     {
       path: '/logout',
       name: 'logout',
-      component: Login,
+      component: Logout,
       props: false
     },
     {
@@ -74,6 +78,12 @@ export default new Router({
       props: true
     },
     {
+      path: '/admin/post',
+      name: 'adminPost',
+      component: AdminPost,
+      props: false
+    },
+    {
       path: '/admin/sets/:celebration_set?',
       name: 'adminCelebrationSets',
       component: AdminCelebrationSets,
@@ -83,6 +93,12 @@ export default new Router({
       path: '/admin/teams',
       name: 'adminTeams',
       component: AdminTeams,
+      props: false
+    },
+    {
+      path: '/admin/trainings',
+      name: 'adminTrainings',
+      component: AdminTrainings,
       props: false
     },
 
@@ -164,12 +180,7 @@ export default new Router({
       component: MyYear,
       props: true
     },
-    {
-      path: '/team/:tid',
-      name: 'ourTeam',
-      component: OurTeam,
-      props: true
-    },
+
     {
       path: '/team/goals/:tid/:year?',
       name: 'teamGoals',
@@ -204,6 +215,12 @@ export default new Router({
       path: '/team/member/:tid/:uid?',
       name: 'teamMemberProfile',
       component: TeamMemberProfile,
+      props: true
+    },
+    {
+      path: '/team/members/:tid',
+      name: 'ourTeam',
+      component: OurTeam,
       props: true
     },
     {

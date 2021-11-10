@@ -9,8 +9,22 @@
     </div>
     <div v-if="this.authorized">
       <h1 class="center">{{ this.team.name }}</h1>
+      <div v-if="this.multiple_teams">
+        Multiple Teams
+        <v-select label="name" :options="teams"></v-select
+        ><option
+          v-for="t in teams"
+          :value="t.name"
+          :key="t.tid"
+          :selected="t.tid === this.team.tid"
+          >{{ option }}</option
+        >
+      </div>
+
       <UserList v-for="user in users" :key="user.uid" :user="user" />
-       <button class="button grey" id="update" @click="newMember">Add Members</button>
+      <button class="button grey" id="update" @click="newMember">
+        Add Members
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +46,13 @@ export default {
   data() {
     return {
       authorized: false,
+      multiple_teams: false,
+      teams: [
+        {
+          tid: null,
+          name: null
+        }
+      ],
       team: [
         {
           tid: null,
@@ -49,8 +70,8 @@ export default {
       ]
     }
   },
-  methods:{
-    newMember(){
+  methods: {
+    newMember() {
       this.$router.push({
         name: 'teamMemberProfile',
         params: {
@@ -58,7 +79,6 @@ export default {
         }
       })
     }
-
   },
   beforeCreate: function() {
     document.body.className = 'team'
@@ -71,13 +91,18 @@ export default {
     )
     if (this.authorized) {
       try {
-         this.menu = await this.menuParams('Our Team', 'M')
+        this.menu = await this.menuParams('Our Team', 'M')
         var params = {}
         params.tid = this.$route.params.tid
-        this.team = await AuthorService.do('getTeam',params)
+        this.team = await AuthorService.do('getTeam', params)
+        this.teams = await AuthorService.do('getTeams', params)
+        console.log(this.teams)
+        if (this.teams.length > 1) {
+          this.multiple_teams = true
+        }
         var route = []
         route['route'] = JSON.stringify(this.$route.params)
-        this.users = await AuthorService.do('getTeamMembersReported',route)
+        this.users = await AuthorService.do('getTeamMembersReported', route)
         console.log(this.users)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
@@ -86,6 +111,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

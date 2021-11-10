@@ -203,7 +203,12 @@ export default {
     },
 
     return() {
-      window.history.back()
+      this.$router.push({
+        name: 'adminCelebrationSets',
+        params: {
+          celebration_set: this.$route.params.celebration_set,
+        }
+      })
     }
   },
   beforeCreate: function() {

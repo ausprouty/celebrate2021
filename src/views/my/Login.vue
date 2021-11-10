@@ -126,7 +126,6 @@ export default {
         })
       }
     }
-    this.email = process.env.VUE_DEFAULT_EMAIL
     console.log ('backend is ' + process.env.VUE_APP_STANDARD_BACKEND)
   }
 }

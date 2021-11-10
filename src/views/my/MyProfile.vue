@@ -21,7 +21,9 @@
           @mousedown="$v.member.firstname.$touch()"
         />
         <template v-if="$v.member.firstname.$error">
-          <p v-if="!$v.member.firstname.required" class="errorMessage">First Name is required</p>
+          <p v-if="!$v.member.firstname.required" class="errorMessage">
+            First Name is required
+          </p>
         </template>
 
         <BaseInput
@@ -34,7 +36,9 @@
           @mousedown="$v.member.lastname.$touch()"
         />
         <template v-if="$v.member.lastname.$error">
-          <p v-if="!$v.member.lastname.required" class="errorMessage">Last Name is required</p>
+          <p v-if="!$v.member.lastname.required" class="errorMessage">
+            Last Name is required
+          </p>
         </template>
 
         <BaseInput
@@ -45,10 +49,14 @@
           class="field"
         />
 
+
+        <p @click="changeTodaySettings()" class="change">
+          Change celebration settings
+        </p>
+
         <p @click="changePassword()" class="change">Change Password or Email</p>
 
         <div v-if="this.change_password">
-          
           <BaseInput
             v-model="$v.member.email.$model"
             label="Email"
@@ -68,8 +76,12 @@
 
         <br />
         <br />
-        <button class="button green" id="update" click="saveForm">Update</button>
-        <button class="button red" id="delete" @click="deleteForm">Delete</button>
+        <button class="button green" id="update" click="saveForm">
+          Update
+        </button>
+        <button class="button red" id="delete" @click="deleteForm">
+          Delete
+        </button>
       </form>
     </div>
   </div>
@@ -118,6 +130,24 @@ export default {
     }
   },
   methods: {
+    changeItems() {
+      this.$router.push({
+        name: 'myItem',
+        params: {
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid
+        }
+      })
+    },
+    changeTodaySettings() {
+      this.$router.push({
+        name: 'myTodaySettings',
+        params: {
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid
+        }
+      })
+    },
     async saveForm() {
       try {
         if (!this.saved) {
@@ -152,8 +182,9 @@ export default {
           this.registered = true
           this.$router.push({
             name: 'team',
-            params:{
-              team: t
+            params: {
+              uid: this.$route.params.uid,
+              tid: this.$route.params.tid
             }
           })
         }
