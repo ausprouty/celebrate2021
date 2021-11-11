@@ -5,6 +5,8 @@ import Debug from './views/admin/Debug.vue'
 
 import Login from './views/my/Login.vue'
 import Logout from './views/my/Logout.vue'
+import Register from './views/my/Register.vue'
+
 import AdminCelebrationSets from './views/admin/AdminCelebrationSets.vue'
 import AdminItem from './views/admin/AdminItem.vue'
 import AdminItemsSort from './views/admin/AdminItemsSort.vue'
@@ -56,6 +58,12 @@ export default new Router({
       path: '/logout',
       name: 'logout',
       component: Logout,
+      props: false
+    },
+    {
+      path: '/install/:team_key?',
+      name: 'install',
+      component: Register,
       props: false
     },
     {

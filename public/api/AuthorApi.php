@@ -14,7 +14,7 @@ else{
 myHeaders();  // get rid of CORS
 // assign variables
 
-$out = array(); 
+$out = array();
 $debug = 'Using AuthorApi'. "\n";
 $debug .= '$p[] = ' . "\n";
 $debug .= 'parameters:' . "\n";
@@ -39,7 +39,17 @@ $debug .= 'Action: '. $action . "\n";
 if ($action == 'login'){
 	$out = myLogin($p);
 	$debug .= $out['debug'];
-	writeLog('Author46', $debug);
+}
+// login routine
+elseif ($action == 'validate'){
+	require_once ($_GET['page'] . '.php');
+	$out = validate($p);
+	$debug .= $out['debug'];
+}
+elseif ($action == 'register'){
+	require_once ('register.php');
+	$out = register($p);
+	$debug .= $out['debug'];
 }
 else{
 	$ok = myAuthorize($p);
@@ -60,7 +70,7 @@ else{
 			else{
 				$debug .= $out['debug'];
 			}
-			
+
 			unset ($out['debug']);
 		}
 		else{

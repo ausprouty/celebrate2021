@@ -8,19 +8,21 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h1 class="center">{{ this.team.name }}</h1>
-      <div v-if="this.multiple_teams">
-        Multiple Teams
-        <v-select label="name" :options="teams"></v-select
-        ><option
-          v-for="t in teams"
-          :value="t.name"
-          :key="t.tid"
-          :selected="t.tid === this.team.tid"
-          >{{ option }}</option
-        >
+      <div v-if="!this.multiple_teams">
+        <h1 class="center">{{ this.team.name }}</h1>
       </div>
-
+      <div v-if="this.multiple_teams">
+        <select v-model="current_team">
+          <option
+            v-for="(team, tid) in teams"
+            v-bind:key="tid"
+            :value="team.tid"
+            @change="alert('fr0do')"
+          >
+            {{ team.name }}
+          </option>
+        </select>
+      </div>
       <UserList v-for="user in users" :key="user.uid" :user="user" />
       <button class="button grey" id="update" @click="newMember">
         Add Members
@@ -41,7 +43,6 @@ export default {
     UserList,
     NavBar
   },
-
   mixins: [authorMixin],
   data() {
     return {
@@ -53,6 +54,8 @@ export default {
           name: null
         }
       ],
+      current_team: null,
+
       team: [
         {
           tid: null,
@@ -71,6 +74,10 @@ export default {
     }
   },
   methods: {
+    changeTeam(tid) {
+      console.log('this is changing the team')
+      alert(tid)
+    },
     newMember() {
       this.$router.push({
         name: 'teamMemberProfile',
@@ -91,6 +98,7 @@ export default {
     )
     if (this.authorized) {
       try {
+        this.current_team = this.$route.params.tid
         this.menu = await this.menuParams('Our Team', 'M')
         var params = {}
         params.tid = this.$route.params.tid
