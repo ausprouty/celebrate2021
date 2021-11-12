@@ -22,6 +22,7 @@ function register($p){
        $resp= createUser($p);
        $uid = findUserUid($p);
     }
+    addMemberToTeam($uid, $tid);
     $out = myLogin($p);
     $out['content']['tid']= $tid;
     return $out;

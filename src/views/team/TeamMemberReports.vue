@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <h1 v-if="missingMonths(this.missing)">Needs progress for these months:</h1>
+      <h1 v-if="missingMonths(this.missing)">Did you have anything to celebrate during these months?:</h1>
       <div v-for="missed in missing">
         <p class="months" @click="openProgress(missed)">{{ months[missed] }}</p>
       </div>

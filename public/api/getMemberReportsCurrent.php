@@ -1,4 +1,7 @@
 <?php
+
+include_once('findMemberActive.php');
+include_once('verifyRoute.php');
 function getMemberReportsCurrent($params){
     $out['debug']  = null;
 	if (!isset($params['route'] )){
@@ -9,7 +12,13 @@ function getMemberReportsCurrent($params){
 		return $out;
     }
     // decode parameters
-    $route = json_decode($params['route']);
+    $required = array('tid','uid');
+	$verify = verifyRoute($params['route'], $required, 'getMemberReportsCurrent');
+	if (isset($verify['debug'])){
+		$out['debug'] .=$verify['debug'];
+		return  $out;
+	}
+    $route= $verify['route'];
     if (!isset($route->year)){
         $route->year = date('Y');
     }
@@ -21,10 +30,10 @@ function getMemberReportsCurrent($params){
         }
     }
        // find reports
-    $sql = 'SELECT * FROM reported 
-        WHERE uid = :uid AND  tid = :tid 
+    $sql = 'SELECT * FROM reported
+        WHERE uid = :uid AND  tid = :tid
         AND year = :year';
-    $data = [   
+    $data = [
         'uid' => $route->uid,
         'tid'=> $route->tid,
         'year'=> $route->year,
@@ -39,9 +48,12 @@ function getMemberReportsCurrent($params){
         $current[$report->month] = 'Y';
     }
     $missing = [];
-    foreach ($current as $key => $value){
+    foreach ($current as $month => $value){
         if ($value == 'N'){
-            $missing[] = $key;
+            if (findMemberActive($route, $month)){
+                 $missing[] = $month;
+            }
+
         }
     }
     $out['content'] = $missing;

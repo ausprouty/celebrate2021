@@ -1,5 +1,5 @@
 <?php
-function AddMemberToTeam($uid, $tid, $scope){
+function AddMemberToTeam($uid, $tid, $scope= null){
     $out = [];
     $data = array(
         'uid' =>  $uid,
@@ -8,7 +8,7 @@ function AddMemberToTeam($uid, $tid, $scope){
       // are they already in this team?
     $sql = "SELECT mid FROM members WHERE uid = :uid AND tid = :tid LIMIT 1";
     $res =  sqlReturnObjectOne($sql, $data);
-    if (!$res->mid){
+    if (!isset($res->mid)){
         $data = array(
             'uid' =>  $uid,
             'tid' => $tid,

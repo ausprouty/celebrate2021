@@ -55,20 +55,37 @@ export const authorMixin = {
         scope = this.user.scope
         console.log('Your scope is ' + scope)
       }
+      console.log(scope)
       if (scope == 'global') {
         console.log('you have global authority')
         return true
       }
       // are you a team leader?
-      if (reason == 'admin' && scope == 'global') {
-        console.log('you are team leader')
+      if (reason == 'admin' && scope == 'admin') {
+        console.log('you are administrator')
         return true
       }
 
       // are you a team leader?
-      if (scope == 'team' && this.user.team == tid) {
-        console.log('you are team leader')
-        return true
+      if (scope == 'team') {
+        var ok = false
+        for (var i = 0; i < this.user.teams.length; i++) {
+          if (this.user.teams[i] == tid) {
+            ok = true
+          }
+        }
+        console.log('checked for team leader')
+        return ok
+      }
+      if (reason == 'team') {
+        var ok = false
+        for (var i = 0; i < this.user.teams.length; i++) {
+          if (this.user.teams[i] == tid) {
+            ok = true
+          }
+        }
+        console.log('checked for team')
+        return ok
       }
       // are you a team member?{
       if (reason == 'team-member' && this.user.team == tid) {

@@ -130,6 +130,13 @@ export default {
           show: true,
           link: 'adminCelebrationSets',
           url: 'admin/sets/'
+        },
+        {
+          index: 4,
+          value: 'Test',
+          show: true,
+          link: 'adminTest',
+          url: 'admin/test/'
         }
       ],
       my_menu: [

@@ -8,7 +8,7 @@ function getSettingsToday($params){
 	// check to make sure we have all the params we need
 	$out['debug'] = null;
 	$settings = [];
-	/*if (!isset($params['route'])){
+	if (!isset($params['route'])){
 		writeLog('getSettingsToday-10',"Stopped abbroptly: Route not set getSettingsToday");
 		$out['debug'] .= "Route not set getSettingsToday\n";
         return $out;
@@ -16,18 +16,14 @@ function getSettingsToday($params){
     writeLog('getSettingsToday-15',"Entered");
     $required = array('year', 'tid','uid');
 	$verify = verifyRoute($params['route'], $required, 'getSettingsToday');
-	if ($verify['debug'] != null){
-		return $verify['debug'];
+	if (isset($verify['debug'])){
+		$out['debug'] .=$verify['debug'];
+		return  $out;
 	}
     $route= $verify['route'];
-	*/
-   // $route = json_decode($params['route']);
 	$focus=findTeamFocus($route->tid);
 
 	writeLog('getSettingsToday-27',$focus);
-	$route = new stdClass();
-     $route->tid=1;
-     $route->uid= 1;
       $route->year= 2021;
 
 	writeLog('getSettingsToday-32',$focus);
@@ -45,8 +41,8 @@ function getSettingsToday($params){
 	$result = sqlReturnObjectMany($sql, $data);
 	if ($result){
 		foreach ($result as $item){
-			// does this require quick action?
-			writeLog('getSettingsToday-48-'. $item->name ,$item->paraphrase);
+		/*	// does this require quick action?
+			writeLog('getSettingsToday-48-'. $item->id ,$item->name);
 			$sql = "SELECT qid FROM quick
 				WHERE uid = :uid AND
 				tid = :tid AND
@@ -71,7 +67,7 @@ function getSettingsToday($params){
 				'year' =>$route->year
 			);
 			$response = sqlReturnObjectOne($sql, $data);
-			$item->number = isset($response->numbers)? $response->numbers : null;
+		*/	$item->number = isset($response->numbers)? $response->numbers : null;
 			// set value
 			$settings[] = $item;
 		}

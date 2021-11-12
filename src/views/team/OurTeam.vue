@@ -17,7 +17,6 @@
             v-for="(team, tid) in teams"
             v-bind:key="tid"
             :value="team.tid"
-            @change="alert('fr0do')"
           >
             {{ team.name }}
           </option>
@@ -76,7 +75,7 @@ export default {
   methods: {
     changeTeam(tid) {
       console.log('this is changing the team')
-      alert(tid)
+      this.showForm(tid)
     },
     newMember() {
       this.$router.push({
@@ -85,6 +84,30 @@ export default {
           tid: this.$route.params.tid
         }
       })
+    },
+    async showForm(tid) {
+      try {
+        this.menu = await this.menuParams('Our Team', 'M')
+        var params = {}
+        params.tid = tid
+        this.team = await AuthorService.do('getTeam', params)
+        this.teams = await AuthorService.do('getTeams', params)
+        console.log(this.teams)
+        if (this.teams.length > 1) {
+          this.multiple_teams = true
+        }
+        var route = []
+        route['route'] = JSON.stringify(params)
+        this.users = await AuthorService.do('getTeamMembersReported', route)
+        console.log(this.users)
+      } catch (error) {
+        console.log('There was an error in Team.vue:', error) // Logs out the error
+      }
+    }
+  },
+  watch: {
+    current_team: function() {
+      this.changeTeam(this.current_team)
     }
   },
   beforeCreate: function() {
@@ -93,28 +116,12 @@ export default {
   async created() {
     this.authorized = this.authorize(
       'team',
-      this.$route.params.uid,
+      this.user.uid,
       this.$route.params.tid
     )
     if (this.authorized) {
-      try {
-        this.current_team = this.$route.params.tid
-        this.menu = await this.menuParams('Our Team', 'M')
-        var params = {}
-        params.tid = this.$route.params.tid
-        this.team = await AuthorService.do('getTeam', params)
-        this.teams = await AuthorService.do('getTeams', params)
-        console.log(this.teams)
-        if (this.teams.length > 1) {
-          this.multiple_teams = true
-        }
-        var route = []
-        route['route'] = JSON.stringify(this.$route.params)
-        this.users = await AuthorService.do('getTeamMembersReported', route)
-        console.log(this.users)
-      } catch (error) {
-        console.log('There was an error in Team.vue:', error) // Logs out the error
-      }
+      this.current_team = this.$route.params.tid
+      this.showForm(this.current_team)
     }
   }
 }

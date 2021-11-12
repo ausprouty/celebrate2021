@@ -28,6 +28,7 @@ export default {
       'AuthorApi.php?backend=' + backEnd + '&page=' + what + '&action=' + what,
       contentForm
     )
+    console.log(res)
     if (typeof res.data.content != undefined) {
       response = res.data.content
     }
