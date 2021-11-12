@@ -34,7 +34,7 @@ $p['debug'] = '';
 $action = $_GET['action'];
 $p['action'] = $action;
 $debug .= 'Action: '. $action . "\n";
-
+writeLog($action . '-parameters', $debug);
 // login routine
 if ($action == 'login'){
 	$out = myLogin($p);
@@ -60,7 +60,7 @@ else{
 			require_once ($_GET['page'] . '.php');
 		}
 		$debug .= 'action is '  . $action ."\n";
-		$out = $action ($p);
+	    $out = $action ($p);
 		if (isset($out['debug'])){
 			if (is_array($out['debug'])){
 				foreach ($out['debug'] as $d){

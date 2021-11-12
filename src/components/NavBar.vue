@@ -16,13 +16,21 @@
         <img class="icon hand" src="/images/icons/personal/person_48x48.png" />
       </div>
 
-      <div class="hand team float pad" @click="showTeamMenu()">
+      <div
+        v-if="this.authorized"
+        class="hand team float pad"
+        @click="showTeamMenu()"
+      >
         <img class="icon hand" src="/images/icons/team/group_48x48.png" />
       </div>
-      <div class="hand team float pad" @click="showAdminMenu()">
+      <div
+        v-if="this.authorized_admin"
+        class="hand team float pad"
+        @click="showAdminMenu()"
+      >
         <img class="icon hand" src="/images/icons/admin/admin_48x48.png" />
       </div>
-      <div class="my float pad">
+      <div v-if="this.image" class="my float pad">
         <img class="member" v-bind:src="appDir.members + image" />
       </div>
       <div class="breadcrumb float-right">{{ this.breadcrumb }}</div>
@@ -77,9 +85,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
   computed: mapState(['user', 'my', 'appDir']),
+  mixins: [authorMixin],
   props: {
     image: String,
     time: String,
@@ -88,6 +98,7 @@ export default {
   data() {
     return {
       authorized: true,
+      authorized_admin: false,
       show_team: false,
       show_my: false,
       show_admin: false,
@@ -299,6 +310,7 @@ export default {
   },
   created() {
     this.authorized = true
+    this.authorized_admin = this.authorize('admin', this.$route.params.uid)
   }
 }
 </script>

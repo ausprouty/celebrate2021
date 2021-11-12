@@ -12,6 +12,7 @@ import AdminItem from './views/admin/AdminItem.vue'
 import AdminItemsSort from './views/admin/AdminItemsSort.vue'
 import AdminPost from './views/admin/AdminPost.vue'
 import AdminTeams from './views/admin/AdminTeams.vue'
+import AdminTest from './views/admin/AdminTest.vue'
 import AdminTrainings from './views/admin/AdminTrainings.vue'
 
 import MyGoals from './views/my/MyGoals.vue'
@@ -101,6 +102,12 @@ export default new Router({
       path: '/admin/teams',
       name: 'adminTeams',
       component: AdminTeams,
+      props: false
+    },
+    {
+      path: '/admin/test',
+      name: 'adminTest',
+      component: AdminTest,
       props: false
     },
     {

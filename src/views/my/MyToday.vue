@@ -18,7 +18,12 @@
       <h2 class="center">What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+          <div
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="progress"
+          >
             <div class="app-link">
               <div class="shadow-card -shadow">
                 <div class="wrapper">
@@ -66,8 +71,12 @@
             <!-- End of applink-->
           </div>
           <!-- End of for loop-->
-          <button class="button green" id="update" @click="saveForm">Update</button>
-          <button class="button grey right" @click="updateSettings">Settings</button>
+          <button class="button green" id="update" @click="saveForm">
+            Update
+          </button>
+          <button class="button grey right" @click="updateSettings">
+            Settings
+          </button>
         </form>
       </div>
 
@@ -208,8 +217,6 @@ export default {
               this.items[i]['prayer'] = null
             }
           }
-          var res = await AuthorService.do('updateProgressToday', params)
-
           this.items = await AuthorService.do('getProgressToday', params)
         }
       } catch (error) {
@@ -235,13 +242,22 @@ export default {
         var params = []
         var route = {}
         route.uid = this.$route.params.uid
-        route.tid =  this.$route.params.tid
+        route.tid = this.$route.params.tid
         console.log('this.user')
         console.log(this.user)
         route.year = new Date().getFullYear()
         route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.do('getProgressToday', params)
+        if (this.items.length < 1) {
+          this.$router.push({
+            name: 'myTodaySettings',
+            params: {
+              uid: this.$route.params.uid,
+              tid: this.$route.params.tid
+            }
+          })
+        }
         params['uid'] = this.$route.params.uid
         this.member = await AuthorService.do('getUser', params)
         console.log('this member')

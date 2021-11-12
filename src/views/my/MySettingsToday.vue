@@ -16,7 +16,12 @@
             <th>Item</th>
             <th>Often?</th>
           </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals hand">
+          <tr
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="goals hand"
+          >
             <td class="icon">
               <img
                 v-bind:src="
@@ -42,7 +47,9 @@
 
         <br />
 
-        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
       </form>
       <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
@@ -156,7 +163,7 @@ export default {
           params['tid'] = this.$route.params.tid
           params['year'] = new Date().getFullYear()
           console.log(params)
-          var res = await AuthorService.do('updateSettingsToday', params)
+          await AuthorService.do('updateSettingsToday', params)
           this.$router.push({
             name: 'myToday',
             params: {
@@ -193,6 +200,8 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
+        console.log('for getSettingsToday')
+        console.log(params['route'])
         this.items = await AuthorService.do('getSettingsToday', params)
         console.log(this.items)
         params['uid'] = this.$route.params.uid

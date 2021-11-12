@@ -1,4 +1,5 @@
 <?php
+include_once('verifyRoute.php');
 function getGoalsPage($params){
 	// check to make sure we have all the params we need
 	$out['debug'] = null;
@@ -7,30 +8,23 @@ function getGoalsPage($params){
 		$out['debug'] .= 'Route not set in getGoalsPage' . "\n";
 	   }
 	// decode
-	$route = json_decode ($params['route']);
-	if (!isset($route->year)){
-		 $out['debug'] .= 'Year not set in getGoalsPage' . "\n";
+	$required = array('year', 'tid','uid','page');
+	$verify = verifyRoute($params['route'], $required, 'getGoalsPage');
+	if ($verify['debug'] != null){
+        writeLog ('getGoalsToday-14', verify['debug'] );
+		return $verify['debug'];
 	}
-	if (!isset($route->tid)){
-		 $out['debug'] .= 'tid not set in getGoalsPage'. "\n";
-	}
-	if (!isset($route->uid)){
-		 $out['debug'] .= 'uid not set in getGoalsPage'. "\n";
-    }
-    if (!isset($route->page)){
-        $out['debug'] .= 'Page not set in getGoalsPage'. "\n";
-   }
-	if ($out['debug'] != null){
-		return $out;
-	}
+    $route= $verify['route'];
+    $focus=findTeamFocus($route->tid);
 	// get all items for this person/team
-	$sql = "SELECT * FROM items WHERE	
-	       (celebration_set = 'cru' OR
+	$sql = "SELECT * FROM items WHERE
+	       (celebration_set = :celebration_set OR
 		   tid = :tid OR
 		   uid = :uid)
            AND page = :page
 		   ORDER BY id";
 	$data = array(
+        'celebration_set' => $focus,
 		'tid' => $route->tid,
         'uid' => $route->uid,
         'page'=> $route->page
@@ -39,7 +33,7 @@ function getGoalsPage($params){
 	if ($result){
 		// get goals for this year
 		foreach ($result as $item){
-			$sql = "SELECT numbers, text FROM goals 
+			$sql = "SELECT numbers, text FROM goals
 				WHERE uid = :uid AND
 				tid = :tid AND
 				id = :id  AND

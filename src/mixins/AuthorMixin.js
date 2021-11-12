@@ -36,12 +36,17 @@ export const authorMixin = {
         this.$router.push({ name: 'login' })
       }
       // is this your record for this team?
-      if (this.user.uid == uid && this.user.team == tid) {
+      if (this.user.uid == uid && this.user.team == tid && reason != 'admin') {
         console.log('this is your record')
         return true
       }
       // is this your own profile?
       if (reason == 'profile' && this.user.uid == uid) {
+        return true
+      }
+      // is this your personal page?{
+      if (reason == 'personal' && this.user.uid == uid) {
+        console.log('this is your page')
         return true
       }
       // do you have global authority?
@@ -52,6 +57,11 @@ export const authorMixin = {
       }
       if (scope == 'global') {
         console.log('you have global authority')
+        return true
+      }
+      // are you a team leader?
+      if (reason == 'admin' && scope == 'global') {
+        console.log('you are team leader')
         return true
       }
 
@@ -65,6 +75,7 @@ export const authorMixin = {
         console.log('you are team member')
         return true
       }
+
       // is this something your team leader can modify?{
       if (
         reason == 'personal-or-teamleader' &&
@@ -74,7 +85,6 @@ export const authorMixin = {
         console.log('you are team leader')
         return true
       }
-
       return false
     },
     authorizeItemEdit(item) {

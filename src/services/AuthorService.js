@@ -21,6 +21,7 @@ export default {
   /////////////////////////////////////////////////
   async do(what, params) {
     console.log(what)
+    console.log(params)
     var response = {}
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -30,7 +31,6 @@ export default {
     if (typeof res.data.content != undefined) {
       response = res.data.content
     }
-
     return response
   },
 
