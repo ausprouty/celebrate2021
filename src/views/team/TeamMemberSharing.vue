@@ -17,14 +17,21 @@
           }"
         >
           <div class="inline" v-if="this.member.image">
-            <img v-bind:src="appDir.members + this.member.image" class="member" />
+            <img
+              v-bind:src="appDir.members + this.member.image"
+              class="member"
+            />
           </div>
           <div class="card-names">
-            <span class="card-name">{{ this.member.firstname }} {{ this.member.lastname }}</span>
+            <span class="card-name"
+              >{{ this.member.firstname }} {{ this.member.lastname }}</span
+            >
           </div>
         </div>
       </div>
-      <h1 v-if="missingMonths(this.missing)">Did you have anything to celebrate during these months?:</h1>
+      <h1 v-if="missingMonths(this.missing)">
+        Did you have anything to celebrate during these months?:
+      </h1>
       <div v-for="missed in missing">
         <p class="months" @click="openProgress(missed)">{{ months[missed] }}</p>
       </div>
@@ -90,7 +97,7 @@ export default {
       this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-          this.menu = await this.menuParams('Team Member Reports', 'M')
+          this.menu = await this.menuParams('Team Member Sharing', 'M')
           var params = []
           params['uid'] = this.$route.params.uid
           var d = new Date()
@@ -104,7 +111,7 @@ export default {
           params['route'] = JSON.stringify(this.$route.params)
           this.member = await AuthorService.do('getUser', params)
           this.missing = await AuthorService.do(
-            'getMemberReportsCurrent',
+            'getTeamMemberShowingMissingCelebrations',
             params
           )
 
@@ -119,6 +126,7 @@ export default {
 
   beforeCreate: function() {
     document.body.className = 'team'
+    this.$route.params.time = null
   },
   async created() {
     this.loadForm()

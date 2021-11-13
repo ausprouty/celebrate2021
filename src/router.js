@@ -34,7 +34,7 @@ import TeamEvents from './views/team/TeamEvents.vue'
 import TeamGoals from './views/team/TeamGoals.vue'
 import TeamItem from './views/team/TeamItem.vue'
 import TeamMonth from './views/team/TeamMonth.vue'
-import TeamMemberReports from './views/team/TeamMemberReports.vue'
+import TeamMemberSharing from './views/team/TeamMemberSharing.vue'
 import TeamMemberProfile from './views/team/TeamMemberProfile.vue'
 import TeamProfile from './views/team/TeamProfile.vue'
 import TeamYear from './views/team/TeamYear.vue'
@@ -196,9 +196,9 @@ export default new Router({
       props: true
     },
     {
-      path: '/team/current/:tid/:uid',
-      name: 'teamMemberReports',
-      component: TeamMemberReports,
+      path: '/team/sharing/:tid/:uid',
+      name: 'teamMemberSharing',
+      component: TeamMemberSharing,
       props: true
     },
 

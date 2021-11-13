@@ -316,6 +316,7 @@ export default {
     }
   },
   created() {
+    this.$route.params.time= null
     this.authorized = true
     this.authorized_admin = this.authorize('admin', this.$route.params.uid)
   }

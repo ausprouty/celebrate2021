@@ -1,5 +1,5 @@
 <template>
-  <div class="app-link" v-on:click="showPage(user)">
+  <div class="app-link" v-on:click="showPage(member)">
     <div
       class="shadow-card -shadow"
       v-bind:class="{ not_current: this.evaluateCurrent(member.current) }"
@@ -39,7 +39,7 @@ export default {
       console.log('member')
       console.log(member)
       this.$router.push({
-        name: 'teamMemberReports',
+        name: 'teamMemberSharing',
         params: {
           uid: this.member.uid,
           tid: this.$route.params.tid
