@@ -1,4 +1,5 @@
 <?php
+include_once('findTeamFocus.php');
 
 function getGoals($params){
 	// check to make sure we have all the params we need
@@ -15,7 +16,7 @@ function getGoals($params){
 	if (!isset($route->tid)){
 		 $out['debug'] .= 'tid not set in getGoals'. "\n";
 	}
-	
+
 	if ($out['debug'] != null){
 		return $out;
 	}
@@ -29,7 +30,7 @@ function getGoals($params){
 }
 function getGoalsIndividual($route){
 	// get all items for this person/team
-	$sql = "SELECT * FROM items WHERE	
+	$sql = "SELECT * FROM items WHERE
 	       celebration_set = 'cru' OR
 		   (tid = :tid AND uid IS NULL) OR
 		   uid = :uid
@@ -42,7 +43,7 @@ function getGoalsIndividual($route){
 	if ($result){
 		// get goals for this year
 		foreach ($result as $item){
-			$sql = "SELECT numbers, text FROM goals 
+			$sql = "SELECT numbers, text FROM goals
 				WHERE uid = :uid AND
 				tid = :tid AND
 				id = :id  AND
@@ -64,18 +65,20 @@ function getGoalsIndividual($route){
 }
 function getGoalsTeam($route){
 	// get all items for this person/team
-	$sql = "SELECT * FROM items WHERE	
-	       celebration_set = 'cru' OR
+$focus=findTeamFocus($route->tid);
+	$sql = "SELECT * FROM items WHERE
+	       celebration_set = :celebration_set OR
 		   (tid = :tid AND uid IS NULL)
 		   ORDER BY id";
 	$data = array(
 		'tid' => $route->tid,
+		'celebration_set' =>$focus
 	);
 	$result = sqlReturnObjectMany($sql, $data);
 	if ($result){
 		// get goals for this year
 		foreach ($result as $item){
-			$sql = "SELECT numbers, text FROM goals 
+			$sql = "SELECT numbers, text FROM goals
 				WHERE uid IS NULL AND
 				tid = :tid AND
 				id = :id  AND

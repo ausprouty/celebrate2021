@@ -22,7 +22,11 @@
           </option>
         </select>
       </div>
-      <UserList v-for="user in users" :key="user.uid" :user="user" />
+      <TeamMemberList
+        v-for="member in members"
+        :key="member.uid"
+        :member="member"
+      />
       <button class="button grey" id="update" @click="newMember">
         Add Members
       </button>
@@ -32,14 +36,14 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import UserList from '@/components/UserList.vue'
+import TeamMemberList from '@/components/TeamMemberList.vue'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 import NavBar from '@/components/NavBar.vue'
 
 export default {
   props: ['tid'],
   components: {
-    UserList,
+    TeamMemberList,
     NavBar
   },
   mixins: [authorMixin],
@@ -62,7 +66,7 @@ export default {
           name: null
         }
       ],
-      users: [
+      members: [
         {
           firstname: null,
           lastname: null,
@@ -98,8 +102,11 @@ export default {
         }
         var route = []
         route['route'] = JSON.stringify(params)
-        this.users = await AuthorService.do('getTeamMembersReported', route)
-        console.log(this.users)
+        this.members = await AuthorService.do(
+          'getTeamMembersShowingCurrentCelebrations',
+          route
+        )
+        console.log(this.members)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

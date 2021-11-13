@@ -1,10 +1,15 @@
 <template>
   <div class="app-link" v-on:click="showPage(user)">
-    <div class="shadow-card -shadow" v-bind:class="{ not_current: this.evaluateCurrent(user.current) }">
+    <div
+      class="shadow-card -shadow"
+      v-bind:class="{ not_current: this.evaluateCurrent(member.current) }"
+    >
       <img v-bind:src="appDir.members + this.image" class="member" />
 
       <div class="card-names">
-        <span class="card-name">{{ user.firstname }} {{ user.lastname }}</span>
+        <span class="card-name"
+          >{{ member.firstname }} {{ member.lastname }}</span
+        >
       </div>
     </div>
   </div>
@@ -14,7 +19,7 @@
 import { mapState } from 'vuex'
 export default {
   props: {
-    user: Object
+    member: Object
   },
 
   data: function() {
@@ -30,20 +35,20 @@ export default {
       }
       return true
     },
-    showPage: function(user) {
-      console.log('user')
-      console.log(user)
+    showPage: function(member) {
+      console.log('member')
+      console.log(member)
       this.$router.push({
         name: 'teamMemberReports',
         params: {
-          uid: this.user.uid,
+          uid: this.member.uid,
           tid: this.$route.params.tid
         }
       })
     }
   },
   created() {
-    this.image = this.user.image
+    this.image = this.member.image
   }
 }
 </script>
@@ -52,9 +57,8 @@ export default {
   display: inline;
 }
 
-
 .not_current {
-  background-color:#dee597
+  background-color: #dee597;
 }
 div.card-names {
   float: right;

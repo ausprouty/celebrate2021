@@ -13,7 +13,7 @@ export default {
     team: Object
   },
   methods: {
-    showTeam: function(team) {
+    showTeam: function() {
       this.$router.push({
         name: 'teamProfile',
         params: {

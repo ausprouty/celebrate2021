@@ -195,6 +195,12 @@ export default new Router({
       component: MyYear,
       props: true
     },
+    {
+      path: '/team/current/:tid/:uid',
+      name: 'teamMemberReports',
+      component: TeamMemberReports,
+      props: true
+    },
 
     {
       path: '/team/goals/:tid/:year?',
@@ -208,12 +214,7 @@ export default new Router({
       component: TeamItem,
       props: true
     },
-    {
-      path: '/team/current/:tid/:uid',
-      name: 'teamMemberReports',
-      component: TeamMemberReports,
-      props: true
-    },
+
     {
       path: '/team/event/:tid/:uid',
       name: 'teamEvent',
