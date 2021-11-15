@@ -27,7 +27,7 @@
             <div class="app-link">
               <div class="shadow-card -shadow">
                 <div class="wrapper">
-                  <div class="icon-select" @click="enterDetails(id)">
+                  <div class="icon-select" @click="openDetails(id)">
                     <img
                       v-bind:src="
                         appDir.icons + item.celebration_set + '/' + item.image
@@ -36,12 +36,49 @@
                     />
                     {{ item.name }}
                   </div>
+                  <template v-if="pleaseOpen(id)">
+                    <p></p>
+                    <div class="entry" v-if="pleaseOpen(id)">
+                      <BaseInput
+                        label="#"
+                        v-model="item.entry"
+                        type="text"
+                        class="field"
+
+                      />
+                    </div>
+
+                    <!-- End of wrapper-->
+
+                    <div v-if="item.details">
+                      <BaseTextarea
+                        v-bind:label="item.details"
+                        @click="showDetails(item)"
+                        v-model="item.comment"
+                        type="textarea"
+                        class="field paragraph"
+                      />
+                    </div>
+                    <BaseTextarea
+                      label="Praise or Prayer Request"
+                      type="textarea"
+                      @click="showPrayer(item)"
+                      v-model="item.prayer"
+                      class="field paragraph"
+                    />
+                    <div v-if="item.entered">
+                      <TodayEntered :item="item"></TodayEntered>
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
+            <!-- End of applink-->
           </div>
           <!-- End of for loop-->
-
+          <button class="button green" id="update" @click="saveForm">
+            Update
+          </button>
           <button class="button grey right" @click="updateSettings">
             Settings
           </button>
@@ -56,6 +93,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
+import TodayEntered from '@/components/TodayEntered.vue'
 import NavBar from '@/components/NavBar.vue'
 
 import { mapState } from 'vuex'
@@ -63,7 +101,8 @@ import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    TodayEntered
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),
@@ -91,15 +130,19 @@ export default {
     }
   },
   methods: {
-    enterDetails(id) {
-      this.$router.push({
-        name: 'myTodayEntry',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid,
-          id: this.$route.params.id
-        }
-      })
+    openDetails(id) {
+      if (this.please_open == null) {
+        this.please_open = id
+      } else {
+        this.please_open = null
+      }
+    },
+    pleaseOpen(id) {
+      if (id == this.please_open) {
+        return true
+      } else {
+        return false
+      }
     },
     showApple() {
       let isApple = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
@@ -154,6 +197,54 @@ export default {
           tid: this.$route.params.tid
         }
       })
+    },
+
+    async saveForm() {
+      try {
+        if (!this.saved) {
+          this.disableButton('update')
+          this.saved = true
+          var params = {}
+          var today = []
+          var now = {}
+          var clean = 0
+          var l = this.items.length
+          for (var i = 0; i < l; i++) {
+            now.id = this.items[i]['id']
+            now.comment = this.items[i]['comment']
+            now.prayer = this.items[i]['prayer']
+            now.entry = 0
+            clean = parseInt(this.items[i]['entry'], 10)
+            if (typeof clean == 'number') {
+              now.entry = clean
+            }
+            today.push(now)
+            now = {}
+          }
+          params['items'] = JSON.stringify(today)
+          var route = this.$route.params
+          route.year = new Date().getFullYear()
+          route.month = new Date().getMonth() + 1
+          params['route'] = JSON.stringify(route)
+          console.log(params)
+          l = this.items.length
+          for (i = 0; i < l; i++) {
+            this.items[i]['entry'] = 0
+            if (typeof this.items[i]['details'] != undefined) {
+              this.items[i]['comment'] = null
+            }
+            if (typeof this.items[i]['prayer'] != undefined) {
+              this.items[i]['prayer'] = null
+            }
+          }
+          this.items = await AuthorService.do('getProgressToday', params)
+        }
+      } catch (error) {
+        console.log('There was an error in saveForm ', error) //
+      }
+    },
+    async addGoal() {
+      console.log('add Goal')
     }
   },
   beforeCreate: function() {
@@ -172,9 +263,12 @@ export default {
         var route = {}
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid
+        console.log('this.user')
+        console.log(this.user)
+        route.year = new Date().getFullYear()
+        route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.do('getItemsToday', params)
-        // if there are no items for this person; have them find some
+        this.items = await AuthorService.do('getProgressToday', params)
         if (this.items.length < 1) {
           this.$router.push({
             name: 'myTodaySettings',
@@ -184,10 +278,16 @@ export default {
             }
           })
         }
+
+        for (var i = 0; i < this.items.length; i++) {
+          this.items[i].open = null
+        }
         params['uid'] = this.$route.params.uid
         this.member = await AuthorService.do('getUser', params)
+        console.log('this member')
+        console.log(this.member)
       } catch (error) {
-        console.log('There was an error in MyToday.vue:', error) // Logs out the error
+        console.log('There was an error in Team.vue:', error) // Logs out the error
       }
     }
   }
@@ -206,9 +306,6 @@ div.wrapper {
 }
 div.icon {
   display: block; /* add this */
-}
-.icon-select {
-  color: purple;
 }
 div.entry {
   display: block;

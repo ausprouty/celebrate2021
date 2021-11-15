@@ -13,20 +13,7 @@ function  findMemberSharingMissing($member, $route){
             $route->month = 12;
         }
     }
-    $month_names = array(
-        1 => 'January',
-        2 => 'February',
-        3 => 'March',
-        4 => 'April',
-        5 => 'May',
-        6 => 'June',
-        7 => 'July',
-        8 => 'August',
-        9 => 'September',
-        10 => 'October',
-        11 => 'November',
-        12 => 'December'
-    );
+
     $starting_month= date('M', $member->date_started);
     $starting_year= date('Y', $member->date_started);
     if ($starting_year < $route->year){
@@ -49,12 +36,10 @@ function  findMemberSharingMissing($member, $route){
     }
     $missing = [];
     for ($month = $starting_month; $month<= $route->month; $month++ ){
-        if (!$found[$month]){
-            writeLog('missing' . $month, 'Bill');
-            $missing[$month] = $month_names [$month];
+        if (!isset($found[$month])){
+            $missing[] = $month;
         }
     }
-    writeLog('missing-57', $missing);
     return  $missing;
 
 }

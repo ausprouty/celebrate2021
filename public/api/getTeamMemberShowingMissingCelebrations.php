@@ -13,7 +13,6 @@ function getTeamMemberShowingMissingCelebrations($params){
     $route = json_decode($params['route']);
     $member = findTeamMember($route);
     $missing = findMemberSharingMissing($member, $route);
-    writeLog('getitrite', $missing);
     $out['content'] = $missing;
     return $out;
 }

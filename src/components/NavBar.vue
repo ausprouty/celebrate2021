@@ -9,6 +9,7 @@
     </router-link>
 
     <div class="container">
+      <div class="breadcrumb">{{ this.breadcrumb }}</div>
       <div class="back hand float" @click="goBack()">
         <img class="icon hand" src="/images/icons/admin/back_48x48.png" />
       </div>
@@ -33,7 +34,6 @@
       <div v-if="this.image" class="my float pad">
         <img class="member" v-bind:src="appDir.members + image" />
       </div>
-      <div class="breadcrumb float-right">{{ this.breadcrumb }}</div>
     </div>
     <div id="admin_menu" class="dropdown-content-admin">
       <div
@@ -316,13 +316,24 @@ export default {
     }
   },
   created() {
-    this.$route.params.time= null
+    this.$route.params.time = null
     this.authorized = true
     this.authorized_admin = this.authorize('admin', this.$route.params.uid)
   }
 }
 </script>
 <style scoped>
+div.breadcrumb {
+  float: none;
+  text-align: right;
+}
+.icon {
+  width: 36px;
+  height: 36 px;
+}
+img.member {
+  height: 36px;
+}
 div.float {
   display: inline;
 }
@@ -336,6 +347,16 @@ div.breadcrumb {
   color: grey;
   font-size: 12px;
   float: right;
+}
+
+@media only screen and (max-width: 300px) {
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+  img.member {
+    height: 24px;
+  }
 }
 
 <style scoped>

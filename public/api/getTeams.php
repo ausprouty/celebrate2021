@@ -23,7 +23,8 @@ function getTeams($params){
     else{
         $uid = $params['my_uid'];
     }
-    $sql = 'SELECT t.tid, t.name FROM members AS m
+    $sql = 'SELECT t.tid, t.name, t.strategy, t.focus
+           FROM members AS m
            INNER JOIN teams AS t
             ON  m.tid = t.tid
             WHERE m.uid = :uid';

@@ -3,7 +3,7 @@
 use ReallySimpleJWT\Token;
 // see https://codewithawa.com/posts/password-reset-system-in-php
 function retrievePassword($params){
-    $out = array(); 
+    $out = array();
     $out['debug'] = "I was in retrievePassword\n";
     $sql = 'SELECT * FROM users WHERE email = :email';
 	$data = array(
@@ -17,10 +17,10 @@ function retrievePassword($params){
         //create token
         $expiration = time() + (2 * 60 * 60);
         $issuer = 'celebrate.myfriends.network';
-    
+
         $token = Token::create($user->uid, $params['secret'], $expiration, $issuer);
         // create link
-        $link = 'https://create.myfriends.network/reset/' . $token;
+        $link = URL .'/reset/' . $token;
         // update retrieve database
         $sql = 'INSERT INTO  reset_links  (uid, token) VALUES (:uid, :token)';
         $data = array(
@@ -28,9 +28,9 @@ function retrievePassword($params){
             'token' => $token
         );
         sqlSafe($sql, $data);
-        $sql = 'SELECT id FROM  reset_links  
-            WHERE uid = :uid AND  
-            token = :token AND 
+        $sql = 'SELECT id FROM  reset_links
+            WHERE uid = :uid AND
+            token = :token AND
             used IS NULL LIMIT 1';
         $data = array(
             'uid' => $user->uid,
@@ -47,6 +47,6 @@ function retrievePassword($params){
     else{
         $out['debug'] .= "No valid email\n";
     }
-    
+
     return $out;
 }

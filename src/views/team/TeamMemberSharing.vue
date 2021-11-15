@@ -114,7 +114,6 @@ export default {
             'getTeamMemberShowingMissingCelebrations',
             params
           )
-
           console.log('this.missing')
           console.log(this.missing)
         } catch (error) {

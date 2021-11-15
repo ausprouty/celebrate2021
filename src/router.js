@@ -27,6 +27,7 @@ import MyPasswordSent from './views/my/MyPasswordSent.vue'
 import MySettingsToday from './views/my/MySettingsToday.vue'
 import MyYear from './views/my/MyYear.vue'
 import MyToday from './views/my/MyToday.vue'
+import MyTodayEntry from './views/my/MyTodayEntry.vue'
 import MyTodayUpdate from './views/my/MyTodayUpdate.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import TeamEvent from './views/team/TeamEvent.vue'
@@ -118,43 +119,43 @@ export default new Router({
     },
 
     {
-      path: '/my/disciples/:uid/:tid/:year?',
+      path: '/my/disciples/:tid/:uid?/:year?',
       name: 'myDisciples',
       component: MyDisciples,
       props: true
     },
     {
-      path: '/my/goals/:uid/:tid/:year?',
+      path: '/my/goals/:tid?/:uid?/:year?',
       name: 'myGoals',
       component: MyGoals,
       props: true
     },
     {
-      path: '/my/item/:uid/:tid/:id?',
+      path: '/my/item/:tid/:uid?/:id?',
       name: 'myItem',
       component: MyItem,
       props: true
     },
     {
-      path: '/my/month/:uid/:tid/:page?/:month?/:year?',
+      path: '/my/month/:tid/:uid?/:page?/:month?/:year?',
       name: 'myMonth',
       component: MyMonth,
       props: true
     },
     {
-      path: '/my/prayer/:uid/:tid/:pid',
+      path: '/my/prayer/:pid/:uid?/:tid?/',
       name: 'myPrayerUpdate',
       component: MyPrayerUpdate,
       props: true
     },
     {
-      path: '/my/prayers/:uid/:tid/:month?/:year?',
+      path: '/my/prayers/:uid?/:tid?/:month?/:year?',
       name: 'myPrayers',
       component: MyPrayers,
       props: true
     },
     {
-      path: '/my/profile/:uid',
+      path: '/my/profile/:uid?',
       name: 'myProfile',
       component: MyProfile,
       props: true
@@ -172,19 +173,25 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/today/:uid/:tid/',
+      path: '/my/today/:tid/:uid?',
       name: 'myToday',
       component: MyToday,
       props: true
     },
     {
-      path: '/my/today/update/:uid/:tid/:todayid/:page?/:month?/:year?',
+      path: '/my/today/entry/:id/:uid?/:tid?',
+      name: 'myTodayEntry',
+      component: MyTodayEntry,
+      props: true
+    },
+    {
+      path: '/my/today/update/:id/:uid?/:tid?/:page?/:month?/:year?',
       name: 'myTodayUpdate',
       component: MyTodayUpdate,
       props: true
     },
     {
-      path: '/my/today/settings/:uid/:tid/',
+      path: '/my/today/settings/:tid/:uid?',
       name: 'myTodaySettings',
       component: MySettingsToday,
       props: true

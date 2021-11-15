@@ -5,6 +5,7 @@ function verifyRoute($route_encoded = null, $required = null, $source = null){
  // $source = 'getSettingsToday';
  // $route_encoded ='{"uid":1,"tid":1,"year":2021}';
     $out= [];
+    $out['debug'] = null;
     $missing = null;
     if (!isset($route_encoded)){
         $out['debug'] = "No encoded route in verifyRoute sent by  $source\n";
