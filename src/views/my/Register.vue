@@ -112,8 +112,6 @@ export default {
         if (!this.saved) {
           this.saved = true
           var params = {}
-          var response = {}
-          this.$store.dispatch('loginUser', [response])
           params.teamkey = this.teamkey
           params.firstname = this.firstname
           params.lastname = this.lastname
@@ -122,18 +120,20 @@ export default {
           let res = await AuthorService.register(params)
           console.log(res)
           if (res.data.content) {
-            response = res.data.content
-            response.token = res.data.token
-            response.expires = res.data.content.expires * 1000
+            this.user = res.data.content
+            this.user.token = res.data.token
+            this.user.expires = res.data.content.expires * 1000
             var date = new Date()
-            response.now = date.getTime()
-            console.log(response)
-            this.$store.dispatch('loginUser', [response])
+            this.user.now = date.getTime()
+            console.log(this.user)
+            this.$store.dispatch('loginUser', [this.user])
+            this.team = await AuthorService.getTeam(this.user.uid)
+            this.$store.dispatch('setTeam', [this.team.tid])
             this.$router.push({
               name: 'myToday',
               params: {
-                uid: response.uid,
-                tid: response.tid
+                uid: this.user.uid,
+                tid: this.team.tid
               }
             })
           } else {

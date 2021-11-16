@@ -26,7 +26,9 @@
         @blur="$v.password.$touch()"
       />
       <template v-if="$v.password.$error">
-        <p v-if="!$v.password.required" class="errorMessage">Password is required.</p>
+        <p v-if="!$v.password.required" class="errorMessage">
+          Password is required.
+        </p>
       </template>
       <br />
       <br />
@@ -36,7 +38,9 @@
         <p class="errorMessage">Wrong email or password. Try again</p>
       </template>
     </form>
-    <button class="button grey" @click="retrievePassword">Forgot Password</button>
+    <button class="button grey" @click="retrievePassword">
+      Forgot Password
+    </button>
   </div>
 </template>
 
@@ -52,10 +56,18 @@ export default {
       password: '',
       submitted: false,
       saved: false,
-      wrong: null
+      wrong: null,
+      user: {
+        uid: null
+      },
+      team: {
+        tid: null,
+        focus: null,
+        name: null
+      }
     }
   },
-  computed: mapState(['user']),
+  computed: mapState(['user', 'member', 'team']),
   validations: {
     email: { required },
     password: { required }
@@ -78,25 +90,25 @@ export default {
         if (!this.saved) {
           this.saved = true
           var params = {}
-          var response = {}
-          this.$store.dispatch('loginUser', [response])
           params.email = this.email.toLowerCase()
           params.password = this.password
           let res = await AuthorService.login(params)
-          console.log (res)
+          console.log(res)
           if (res.data.content) {
-            response = res.data.content
-            response.token = res.data.token
-            response.expires = res.data.content.expires * 1000
+            this.user = res.data.content
+            this.user.token = res.data.token
+            this.user.expires = res.data.content.expires * 1000
             var date = new Date()
-            response.now = date.getTime()
-            console.log (response)
-            this.$store.dispatch('loginUser', [response])
+            this.user.now = date.getTime()
+            console.log(this.user)
+            this.$store.dispatch('loginUser', [this.user])
+            this.team = await AuthorService.getTeam(this.user.uid)
+            this.$store.dispatch('setTeam', [this.team.tid])
             this.$router.push({
               name: 'myToday',
               params: {
-                uid: response.uid,
-                tid: response.teams[0]
+                uid: this.user.uid,
+                tid: this.team.tid
               }
             })
           } else {
@@ -121,12 +133,12 @@ export default {
           name: 'myToday',
           params: {
             uid: this.user.uid,
-            tid: this.user.team
+            tid: this.team.tid
           }
         })
       }
     }
-    console.log ('backend is ' + process.env.VUE_APP_STANDARD_BACKEND)
+    console.log('backend is ' + process.env.VUE_APP_STANDARD_BACKEND)
   }
 }
 </script>

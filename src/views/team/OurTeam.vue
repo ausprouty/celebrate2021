@@ -38,6 +38,7 @@
 import AuthorService from '@/services/AuthorService.js'
 import TeamMemberList from '@/components/TeamMemberList.vue'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
+import { mapState } from 'vuex'
 import NavBar from '@/components/NavBar.vue'
 
 export default {
@@ -95,7 +96,9 @@ export default {
         var params = {}
         params.tid = tid
         this.team = await AuthorService.do('getTeam', params)
+        this.$store.dispatch('setTeam', [this.team])
         this.teams = await AuthorService.do('getTeams', params)
+        this.$store.dispatch('setTeams', [this.team])
         console.log(this.teams)
         if (this.teams.length > 1) {
           this.multiple_teams = true

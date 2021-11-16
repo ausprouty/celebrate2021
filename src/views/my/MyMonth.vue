@@ -144,7 +144,7 @@ export default {
   },
 
   props: ['uid', 'tid', 'year', 'month', 'page'],
-  computed: mapState(['user', 'appDir', 'months']),
+  computed: mapState(['user','member', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {

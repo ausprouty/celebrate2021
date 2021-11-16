@@ -76,7 +76,7 @@ export default {
   },
 
   props: ['uid', 'tid', 'todayid', 'month', 'year'],
-  computed: mapState(['user', 'appDir', 'months']),
+  computed: mapState(['user', 'member', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {

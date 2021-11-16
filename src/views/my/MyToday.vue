@@ -66,7 +66,7 @@ export default {
     NavBar
   },
   props: ['uid', 'tid'],
-  computed: mapState(['user', 'appDir']),
+  computed: mapState(['user', 'member', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
@@ -173,7 +173,9 @@ export default {
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.do('getItemsToday', params)
+        this.items = await AuthorService.checkItemsToday(params)
+        //work here
+        this.$store.dispatch('setTodayItems', [this.items])
         // if there are no items for this person; have them find some
         if (this.items.length < 1) {
           this.$router.push({

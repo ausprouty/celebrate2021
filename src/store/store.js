@@ -12,7 +12,8 @@ export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
     user: {},
-    my: {},
+    my: {},// used for people you are looking at
+    member:{},
     team: {
       tid: null,
       name: null,
@@ -21,6 +22,8 @@ export default new Vuex.Store({
       state: null,
       game: null
     },
+    teams:{},
+    todayItems:{},
     appDir: {
       css: '/content/',
       styles: '/styles/',
@@ -40,7 +43,6 @@ export default new Vuex.Store({
     },
     states: ['all', 'ACT', 'NSW', 'NT', 'QLD', 'SA', 'VIC', 'WA'],
     strategies: ['GCM'],
-
     focus_areas: ['Cru', 'GCM', 'Generations', 'MyFriends', 'Shiftm2M'],
     months: [
       '',
@@ -67,6 +69,18 @@ export default new Vuex.Store({
     SEEING_MEMBER(state, value) {
       state.my = value[0]
       localStorage.setItem('my', JSON.stringify(state.my))
+    },
+    SET_TEAM(state, value) {
+      state.team = value[0]
+      localStorage.setItem('team', JSON.stringify(state.team))
+    },
+    SET_TEAMS(state, value) {
+      state.teams = value[0]
+      localStorage.setItem('teams', JSON.stringify(state.teams))
+    },
+    SET_TODAY_ITEMS(state, value) {
+      state.todayItems = value[0]
+      localStorage.setItem('todayItems', JSON.stringify(state.todayItems))
     }
   },
   actions: {
@@ -75,6 +89,15 @@ export default new Vuex.Store({
     },
     seeingMember({ commit }, [mark]) {
       commit('SEEING_MEMBER', [mark])
+    },
+    setTeam({ commit }, [mark]) {
+      commit('SET_TEAM', [mark])
+    },
+    setTeams({ commit }, [mark]) {
+      commit('SET_TEAMS', [mark])
+    },
+    setTodayItems({ commit }, [mark]) {
+      commit('SET_TODAY_ITEMS', [mark])
     }
   }
 })

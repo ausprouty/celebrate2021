@@ -119,43 +119,43 @@ export default new Router({
     },
 
     {
-      path: '/my/disciples/:tid/:uid?/:year?',
+      path: '/my/disciples/:uid/:tid/:year?',
       name: 'myDisciples',
       component: MyDisciples,
       props: true
     },
     {
-      path: '/my/goals/:tid?/:uid?/:year?',
+      path: '/my/goals/:uid/:tid/:year?',
       name: 'myGoals',
       component: MyGoals,
       props: true
     },
     {
-      path: '/my/item/:tid/:uid?/:id?',
+      path: '/my/item/:uid/:tid/:id?',
       name: 'myItem',
       component: MyItem,
       props: true
     },
     {
-      path: '/my/month/:tid/:uid?/:page?/:month?/:year?',
+      path: '/my/month/:uid/:tid/:page?/:month?/:year?',
       name: 'myMonth',
       component: MyMonth,
       props: true
     },
     {
-      path: '/my/prayer/:pid/:uid?/:tid?/',
+      path: '/my/prayer/:uid/:tid/:pid/',
       name: 'myPrayerUpdate',
       component: MyPrayerUpdate,
       props: true
     },
     {
-      path: '/my/prayers/:uid?/:tid?/:month?/:year?',
+      path: '/my/prayers/:uid/:tid/:month?/:year?',
       name: 'myPrayers',
       component: MyPrayers,
       props: true
     },
     {
-      path: '/my/profile/:uid?',
+      path: '/my/profile/:uid',
       name: 'myProfile',
       component: MyProfile,
       props: true
@@ -173,25 +173,25 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/today/:tid/:uid?',
+      path: '/my/today/:uid/:tid/',
       name: 'myToday',
       component: MyToday,
       props: true
     },
     {
-      path: '/my/today/entry/:id/:uid?/:tid?',
+      path: '/my/today/entry/:uid/:tid,:id',
       name: 'myTodayEntry',
       component: MyTodayEntry,
       props: true
     },
     {
-      path: '/my/today/update/:id/:uid?/:tid?/:page?/:month?/:year?',
+      path: '/my/today/update/:uid/:tid/:id/:page?/:month?/:year?',
       name: 'myTodayUpdate',
       component: MyTodayUpdate,
       props: true
     },
     {
-      path: '/my/today/settings/:tid/:uid?',
+      path: '/my/today/settings/:uid/:tid/',
       name: 'myTodaySettings',
       component: MySettingsToday,
       props: true

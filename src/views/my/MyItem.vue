@@ -88,7 +88,7 @@ import vSelect from 'vue-select'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
 import '@/assets/css/vueSelect.css'
 export default {
-  computed: mapState(['user']),
+  computed: mapState(['user', 'member']),
   props: ['uid', 'tid', 'id'],
   components: {
     NavBar,
