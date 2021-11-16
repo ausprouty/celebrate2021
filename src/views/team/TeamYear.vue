@@ -84,7 +84,6 @@ import '@/assets/css/chartist.css'
 export default {
   components: {
     NavBar,
-    Chartist,
     'v-select': vSelect
   },
 

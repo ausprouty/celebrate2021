@@ -56,15 +56,7 @@ export default {
       password: '',
       submitted: false,
       saved: false,
-      wrong: null,
-      user: {
-        uid: null
-      },
-      team: {
-        tid: null,
-        focus: null,
-        name: null
-      }
+      wrong: null
     }
   },
   computed: mapState(['user', 'member', 'team']),
@@ -95,19 +87,23 @@ export default {
           let res = await AuthorService.login(params)
           console.log(res)
           if (res.data.content) {
-            this.user = res.data.content
-            this.user.token = res.data.token
-            this.user.expires = res.data.content.expires * 1000
+            console.log(res.data.content)
+            var person = {}
+            person = res.data.content
+            person.uid = res.data.content.uid
+            person.token = res.data.token
+            person.expires = res.data.content.expires * 1000
             var date = new Date()
-            this.user.now = date.getTime()
-            console.log(this.user)
-            this.$store.dispatch('loginUser', [this.user])
-            this.team = await AuthorService.getTeam(this.user.uid)
-            this.$store.dispatch('setTeam', [this.team.tid])
+            person.now = date.getTime()
+            console.log(person)
+            this.$store.dispatch('loginUser', [person])
+            params['uid'] = person.uid
+            var team = await AuthorService.do('getTeamFromUid', params)
+            this.$store.dispatch('setTeam', [team])
             this.$router.push({
               name: 'myToday',
               params: {
-                uid: this.user.uid,
+                uid: person.uid,
                 tid: this.team.tid
               }
             })

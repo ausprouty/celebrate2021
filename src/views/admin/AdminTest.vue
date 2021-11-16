@@ -40,6 +40,7 @@ export default {
       authorized: false,
       test_options: [
         'getSettingsToday',
+        'getTeamFromUid',
          'getUser'
       ]
     }
@@ -56,9 +57,10 @@ export default {
         params.my_uid = this.user.uid
         return params
     },
-    async testBibleABSUpdate() {
+   async getTeamFromUid() {
       var params = this.setupParams()
-      var response = await AuthorService.bibleUpdateABS(params)
+      params.uid = 1
+      var response = await AuthorService.do('getTeamFromUid',params)
       return response
     },
     async getSettingsToday() {
