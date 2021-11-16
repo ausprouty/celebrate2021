@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@/store/store.js'
-import { mapState } from 'vuex'
+
 
 const apiURL = process.env.VUE_APP_API_URL
 const backEnd = process.env.VUE_APP_STANDARD_BACKEND
@@ -19,8 +19,9 @@ const apiSECURE = axios.create({
 
 // I want to export a JSON.stringified of response.data.content.text
 export default {
-  computed: mapState(['team', 'user']),
   /////////////////////////////////////////////////
+
+
   async do(what, params) {
     console.log(what)
     console.log(params)

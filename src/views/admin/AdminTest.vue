@@ -39,9 +39,12 @@ export default {
       test_authorized: false,
       authorized: false,
       test_options: [
+        'testCheckMember',
+         'testCheckTeam',
+         'testCheckUser',
         'getSettingsToday',
         'getTeamFromUid',
-         'getUser'
+        'getUser'
       ]
     }
   },
@@ -52,10 +55,31 @@ export default {
       this.result = response
       LogService.consoleLog( ' Response from ' + test, response)
     },
+    setupRoute(){
+        var route = {}
+        route.uid = 1
+        route.tid= 2
+        return  route
+    },
     setupParams(){
         var params = {}
         params.my_uid = this.user.uid
         return params
+    },
+     async testCheckMember() {
+       var route = this.setupRoute()
+      var response = await this.checkMember(route)
+      return response
+    },
+     async testCheckTeam() {
+      var route = this.setupRoute()
+      var response = await this.checkTeam(route)
+      return response
+    },
+     async checkUser() {
+      var route = this.setupRoute()
+      var response = await AuthorService.checkUser(route)
+      return response
     },
    async getTeamFromUid() {
       var params = this.setupParams()

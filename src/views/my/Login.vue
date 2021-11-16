@@ -99,12 +99,12 @@ export default {
             this.$store.dispatch('loginUser', [person])
             params['uid'] = person.uid
             var team = await AuthorService.do('getTeamFromUid', params)
-            this.$store.dispatch('setTeam', [team])
+            this.$store.dispatch('setTeam', { team })
             this.$router.push({
               name: 'myToday',
               params: {
                 uid: person.uid,
-                tid: this.team.tid
+                tid: 2
               }
             })
           } else {

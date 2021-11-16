@@ -8,10 +8,11 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  computed: mapState(['user', 'member']),
+  computed: mapState(['user', 'member', 'team']),
   methods: {
     async created() {
       this.user = null
+      this.member = null
       this.member = null
     }
   }

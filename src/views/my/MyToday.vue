@@ -66,21 +66,12 @@ export default {
     NavBar
   },
   props: ['uid', 'tid'],
-  computed: mapState(['user', 'member', 'appDir']),
+  computed: mapState(['user', 'member', 'team', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
       items: [],
       please_open: null,
-      member: {
-        firstname: null,
-        lastname: null,
-        phone: null,
-        scope: null,
-        username: null,
-        password: null,
-        image: 'blank.png'
-      },
       highlight: true,
       saved: false
     }
@@ -168,14 +159,9 @@ export default {
     if (this.authorized) {
       try {
         this.menu = await this.menuParams('My Today', 'M')
-        var params = []
-        var route = {}
-        route.uid = this.$route.params.uid
-        route.tid = this.$route.params.tid
-        params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.checkItemsToday(params)
-        //work here
-        this.$store.dispatch('setTodayItems', [this.items])
+        await this.checkItemsToday(this.$route.params)
+        await this.checkMember(this.$route.params)
+        await this.checkTeam(this.$route.params)
         // if there are no items for this person; have them find some
         if (this.items.length < 1) {
           this.$router.push({

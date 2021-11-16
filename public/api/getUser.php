@@ -9,7 +9,7 @@ function getUser($params){
 			}
 		}
 		if (!isset($params['uid'])){
-			$out['debug'] = 'uid not set in getUser';
+			trigger_error("No uid for getUser", E_USER_ERROR);
 			return $out;
 		}
 	}

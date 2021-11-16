@@ -11,9 +11,13 @@ const user = JSON.parse(localStorage.getItem('user')) || defaultUser
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
-    user: {},
-    my: {},// used for people you are looking at
-    member:{},
+    user: {
+      uid: null
+    },
+    my: {}, // may be used by teamleder to look at other people's records
+    member: {
+      uid: null
+    },
     team: {
       tid: null,
       name: null,
@@ -22,8 +26,8 @@ export default new Vuex.Store({
       state: null,
       game: null
     },
-    teams:{},
-    todayItems:{},
+    teams: {},
+    todayItems: {},
     appDir: {
       css: '/content/',
       styles: '/styles/',
@@ -67,19 +71,32 @@ export default new Vuex.Store({
       localStorage.setItem('user', JSON.stringify(state.user))
     },
     SEEING_MEMBER(state, value) {
-      state.my = value[0]
+      state.my = value
       localStorage.setItem('my', JSON.stringify(state.my))
     },
+    SET_ITEMS_TODAY(state, value) {
+      state.items = value
+      localStorage.setItem('items', JSON.stringify(state.items))
+    },
+    SET_MEMBER(state, value) {
+      state.member = value
+      console.log(value)
+      localStorage.setItem('member', JSON.stringify(value))
+    },
     SET_TEAM(state, value) {
-      state.team = value[0]
+      state.team = value
       localStorage.setItem('team', JSON.stringify(state.team))
     },
     SET_TEAMS(state, value) {
-      state.teams = value[0]
+      state.teams = value
       localStorage.setItem('teams', JSON.stringify(state.teams))
     },
+    SET_USER(state, value) {
+      state.team = value
+      localStorage.setItem('user', JSON.stringify(state.user))
+    },
     SET_TODAY_ITEMS(state, value) {
-      state.todayItems = value[0]
+      state.todayItems = value
       localStorage.setItem('todayItems', JSON.stringify(state.todayItems))
     }
   },
@@ -87,17 +104,26 @@ export default new Vuex.Store({
     loginUser({ commit }, [mark]) {
       commit('LOGIN_USER', [mark])
     },
-    seeingMember({ commit }, [mark]) {
-      commit('SEEING_MEMBER', [mark])
+    seeingMember({ commit }, { mark }) {
+      commit('SEEING_MEMBER', { mark })
     },
-    setTeam({ commit }, [mark]) {
-      commit('SET_TEAM', [mark])
+    setItemsToay({ commit }, { mark }) {
+      commit('SET_ITEMS_TODAY', { mark })
     },
-    setTeams({ commit }, [mark]) {
-      commit('SET_TEAMS', [mark])
+    setMember({ commit }, { mark }) {
+      commit('SET_MEMBER', { mark })
     },
-    setTodayItems({ commit }, [mark]) {
-      commit('SET_TODAY_ITEMS', [mark])
+    setTeam({ commit }, { mark }) {
+      commit('SET_TEAM', { mark })
+    },
+    setTeams({ commit }, { mark }) {
+      commit('SET_TEAMS', { mark })
+    },
+    setTodayItems({ commit }, { mark }) {
+      commit('SET_TODAY_ITEMS', { mark })
+    },
+    setUser({ commit }, { mark }) {
+      commit('SET_USER', { mark })
     }
   }
 })

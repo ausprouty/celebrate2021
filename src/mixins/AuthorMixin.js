@@ -5,7 +5,7 @@ import { mapState } from 'vuex'
 Vue.use(Vuex)
 
 export const authorMixin = {
-  computed: mapState(['user', 'my']),
+  computed: mapState(['member', 'team', 'user', 'my']),
   data() {
     return {
       menu: {
@@ -164,6 +164,46 @@ export const authorMixin = {
         params.time = 'Time'
       }
       return params
+    },
+    async checkItemsToday(route) {
+      if (route.uid != this.member.uid) {
+        var params = []
+        params['uid'] = route.uid
+        params['tid'] = route.tid
+        var res = await AuthorService.do('getItemsToday', params)
+        this.$store.dispatch('setItemsToday', res)
+      }
+      return this.$route.params.uid
+    },
+    async checkMember(route) {
+      if (route.uid != this.member.uid || route.tid != this.team.tid) {
+        var params = []
+        params['uid'] = route.uid
+        params['tid'] = route.tid
+        var res = await AuthorService.do('getMember', params)
+        console.log ('this is response')
+        console.log (res)
+        this.$store.dispatch('setMember', res)
+      }
+      return this.$route.params.uid
+    },
+    async checkTeam(route) {
+      if (route.tid != this.team.tid) {
+        var params = []
+        params['tid'] = route.tid
+        var res = await AuthorService.do('getTeamFromTid', params)
+        this.$store.dispatch('setTeam', res)
+      }
+      return this.$route.params.uid
+    },
+    async checkUser(route) {
+      if (route.uid != this.user.uid) {
+        var params = []
+        params['uid'] = route.uid
+        var res = await AuthorService.do('getUser', params)
+        this.$store.dispatch('setUser', res)
+      }
+      return this.$route.params.uid
     }
   }
 }
