@@ -180,7 +180,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/today/entry/:uid/:tid,:id',
+      path: '/my/today/entry/:uid/:tid/:id',
       name: 'myTodayEntry',
       component: MyTodayEntry,
       props: true

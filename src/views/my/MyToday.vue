@@ -30,7 +30,7 @@
                 v-bind:class="{ quick: isQuick(id) }"
               >
                 <div class="wrapper">
-                  <div class="flex-wrap" @click="enterDetails(id)">
+                  <div class="flex-wrap" @click="enterDetails(item.id)">
                     <div >
                       <img
                         v-bind:src="
@@ -39,7 +39,7 @@
                         class="icon"
                       />
                     </div>
-                    <div>{{ item.name }}</div>
+                    <div>{{ item.name }} </div>
                   </div>
                 </div>
               </div>

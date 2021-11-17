@@ -8,39 +8,39 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      {{ this.time }}
-      <div class="center">
-        <h2>Update Today Entry</h2>
+      <p class="time">{{ this.time }}</p>
+      <div>
+        <div class="bar">
+          <img
+            v-bind:src="
+              appDir.icons + this.item.celebration_set + '/' + this.item.image
+            "
+            class="icon-small"
+          />
+          <span class="celebrate"> Let's Celebrate what God did</span>
+        </div>
       </div>
+
       <div class="subheading">
         <form @submit.prevent="saveForm">
           <div class="app-link">
             <div class="shadow-card -shadow">
-              <div class="container" @click="showDefinition(item)">
-                <div class="icon">
-                  <img
-                    v-bind:src="
-                      appDir.icons + item.celebration_set + '/' + item.image
-                    "
-                    class="icon"
-                  />
-                </div>
-              </div>
               <div class="entry">
                 <BaseInput
-                  v-bind:label="item.name + ': '"
+                  v-bind:label="this.item.paraphrase"
                   v-model="today.entry"
                   type="number"
                   class="field"
                 />
               </div>
-
-              <BaseTextarea
-                label="Comment"
-                v-model="today.comment"
-                type="textarea"
-                class="field paragraph"
-              />
+              <div v-if="this.item.details">
+                <BaseTextarea
+                  v-bind:label="this.item.details"
+                  v-model="today.comment"
+                  type="textarea"
+                  class="field paragraph"
+                />
+              </div>
 
               <BaseTextarea
                 label="Praise or Prayer Request"
@@ -48,11 +48,25 @@
                 v-model="today.prayer"
                 class="field paragraph"
               />
+              <div v-if="this.celebrations">
+                <p>You recently celebrated:</p>
+                <CelebrationList
+                  v-for="celebration in celebrations"
+                  :key="celebration.todayid"
+                  :celebration="celebration"
+                />
+              </div>
+              <div v-if="!this.celebrations">
+                <p>
+                  God is amazing. This is the first time you have celebrated
+                  this.
+                </p>
+              </div>
             </div>
           </div>
         </form>
         <button class="button green" id="update" @click="saveForm">
-          Update
+          Record Celebration
         </button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button class="button grey" id="delete" @click="deleteForm">
@@ -66,48 +80,51 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
+import CelebrationList from '@/components/CelebrationList.vue'
 
 import { mapState } from 'vuex'
 
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    CelebrationList
   },
 
   props: ['uid', 'tid', 'todayid', 'month', 'year'],
-  computed: mapState(['user', 'member', 'appDir', 'months']),
+  computed: mapState(['itemsToday', 'member', 'user', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {
-      item: {},
-      member: {
-        firstname: null,
-        lastname: null,
-        phone: null,
-        scope: null,
-        username: null,
-        password: null,
-        image: 'blank.png'
+      item: {
+        name: 'Bob',
+        celebration_set: '',
+        image: null
       },
-      today: {},
+      celebrations: [],
+      show_definition: false,
+      today: {
+        month: 1,
+        year: 2021,
+        entry: null,
+        comment: null,
+        prayer: null
+      },
       objective: null,
-      time: null
+      time: null,
+      authorized: false
     }
   },
 
   methods: {
     // see https://www.w3schools.com/howto/howto_js_collapsible.asp
-    showDefinition(today) {
-      console.log('hit button')
-      var content = document.getElementById(today.id)
-      if (content.style.display === 'block') {
-        content.style.display = 'none'
+    toggleDefinition() {
+      if (this.show_definition) {
+        this.show_definition = false
       } else {
-        content.style.display = 'block'
+        this.show_definition = true
       }
     },
-
     async saveForm() {
       if (!this.saved) {
         this.saved = true
@@ -115,172 +132,89 @@ export default {
         this.disableButton('delete')
         var params = {}
         params['today'] = JSON.stringify(this.today)
+        params['route'] = JSON.stringify(this.$route.params)
         console.log(params)
         await AuthorService.do('updateTodayEntry', params)
         this.$router.push({
-          name: 'myMonth',
+          name: 'myToday',
           params: {
             uid: this.$route.params.uid,
-            tid: this.$route.params.tid,
-            page: this.$route.params.page,
-            month: this.$route.params.month,
-            year: this.$route.params.year
+            tid: this.$route.params.tid
           }
         })
       }
     },
-
-    async loadForm() {
-      this.authorized = this.authorize(
-        'personal',
-        this.$route.params.uid,
-        this.$route.params.tid
-      )
-      if (this.authorized) {
-        try {
-          this.menu = await this.menuParams('My Today Update', 'M')
-          var params = {}
-          params['route'] = JSON.stringify(this.$route.params)
-          this.today = await AuthorService.do('getTodayEntry',params)
-          console.log(this.today)
-          params['id'] = this.today.item
-          this.item = await AuthorService.do('getItem', params)
-          console.log(this.item)
-          this.time = this.months[this.today.month] + ',  ' + this.today.year
-          console.log(this.item)
-        } catch (error) {
-          console.log('There was an error in myTodayUpdate.vue:', error) // Logs out the error
-        }
-      }
+    async deleteForm() {
+      alert('I do not know what to do')
     }
   },
   beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {
-    this.loadForm()
+    this.authorized = this.authorize(
+      'personal',
+      this.$route.params.uid,
+      this.$route.params.tid
+    )
+    if (this.authorized) {
+      try {
+        this.menu = await this.menuParams('My Today Update', 'M')
+        await this.checkItemsToday(this.$route.params)
+        await this.checkMember(this.$route.params)
+        await this.checkTeam(this.$route.params)
+        for (var i = 0; i < this.itemsToday.length; i++) {
+          if (this.itemsToday[i].id == this.$route.params.id) {
+            this.item = this.itemsToday[i]
+            let params = []
+            params['route'] = JSON.stringify(this.$route.params)
+            var res = await AuthorService.do(
+              'getRecentMemberCelebrationsForItem',
+              params
+            )
+            if (typeof res != 'undefined') {
+              this.celebrations = res
+            }
+          }
+        }
+
+        this.time = this.months[this.today.month] + ',  ' + this.today.year
+      } catch (error) {
+        console.log('There was an error in myTodayUpdate.vue:', error) // Logs out the error
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-table.time {
-  display: block;
-  background-color: white;
-  padding: 10px;
-  width: 97%;
-  margin: auto;
-  padding-bottom: 20px;
+.icon-small {
+  height: 32px;
+  width: 32px;
 }
-tr.time {
-  width: 100%;
-}
-td.left {
-  background-color: purple;
-  color: white;
-  padding-left: 10px;
-  font-size: 10px;
-  text-align: left;
-  width: 20%;
-}
-td.right {
-  width: 20%;
-  color: white;
-  font-size: 10px;
+p.time {
   text-align: right;
-  background-color: purple;
-  padding-right: 10px;
-}
-a.left,
-a.right {
-  color: white;
-  text-decoration: none;
-}
-td.center {
-  width: 60%;
-  text-align: center;
-  font-weight: 900;
-}
-div.inline {
-  display: inline;
-  text-align: center;
-}
-
-table.heading {
-  display: block;
-  background-color: rgb(243, 243, 148);
-  padding: 10px;
-  width: 97%;
-  margin: auto;
-}
-td.picture {
-  width: 50%;
-}
-td.objective {
-  width: 45%;
-}
-div.subheading {
-  display: block;
-}
-img.picture {
-  width: 100%;
-}
-div.icon {
-  display: inline;
-}
-img.icon {
-  width: 48px;
-  padding-right: 10px;
-}
-
-.important {
-  background-color: rgb(243, 243, 148);
-}
-
-div.item_name {
-  display: inline;
-}
-
-p.objective {
-  padding-left: 10px;
-  color: black;
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: -5px;
-  margin-bottom: 0px;
-}
-ul.motto {
-  margin-top: 0px;
-  padding-inline-start: 20px;
-}
-li.motto {
-  color: black;
-  padding-left: 0px;
-  font-size: 12px;
+  size: 8pt;
   font-style: italic;
 }
-div.left {
-  display: inline;
+div.bar {
+  background-color: yellow;
+  height: 40px;
+  padding: 10px;
+  text-align: left;
 }
-div.right {
-  float: right;
-}
-.collapsed {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
-
-td.item {
-  width: 80%;
-}
-.item_name {
-  color: black;
+.celebrate {
+  color: green;
   font-weight: bold;
 }
-
-td.goals {
-  width: 20%;
+</style>
+<style>
+@media only screen and (max-width: 300px) {
+  .celebrate {
+    font-size: 10px;
+  }
+  label {
+    font-size: 10px;
+  }
 }
 </style>
