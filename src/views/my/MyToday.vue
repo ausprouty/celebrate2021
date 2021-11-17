@@ -30,19 +30,22 @@
                 v-bind:class="{ quick: isQuick(id) }"
               >
                 <div class="wrapper">
-                  <div class="icon-select" @click="enterDetails(id)">
-                    <img
-                      v-bind:src="
-                        appDir.icons + item.celebration_set + '/' + item.image
-                      "
-                      class="icon"
-                    />
-                    {{ item.name }}
+                  <div class="flex-wrap" @click="enterDetails(id)">
+                    <div >
+                      <img
+                        v-bind:src="
+                          appDir.icons + item.celebration_set + '/' + item.image
+                        "
+                        class="icon"
+                      />
+                    </div>
+                    <div>{{ item.name }}</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <!-- End of for loop-->
 
           <button class="button grey right" @click="updateSettings">
@@ -196,8 +199,8 @@ white {
   background-color: yellow;
 }
 
-.quick {
-  background-color: green;
+.flex-wrap {
+  display: flex;
 }
 
 div.wrapper {
@@ -208,9 +211,7 @@ div.wrapper {
 div.icon {
   display: block; /* add this */
 }
-.icon-select {
-  color: purple;
-}
+
 div.entry {
   display: block;
   overflow: hidden; /* if you don't want #second to wrap below #first */
