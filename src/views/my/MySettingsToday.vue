@@ -136,10 +136,10 @@ export default {
           var params = {}
           var plan = []
           var now = {}
-          var l = this.items.length
+          var l = this.itemsToday.length
           for (var i = 0; i < l; i++) {
-            now.id = this.items[i]['id']
-            if (this.items[i]['quick']) {
+            now.id = this.itemsToday[i]['id']
+            if (this.itemsToday[i]['quick']) {
               now.quick = 'Y'
             } else {
               now.quick = 'N'

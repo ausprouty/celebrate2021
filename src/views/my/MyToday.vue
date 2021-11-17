@@ -19,13 +19,16 @@
       <div class="subheading">
         <form @submit.prevent="saveForm">
           <div
-            v-for="(item, id) in this.items"
+            v-for="(item, id) in this.itemsToday"
             :key="id"
             :item="item"
             class="progress"
           >
             <div class="app-link">
-              <div class="shadow-card -shadow">
+              <div
+                class="shadow-card -shadow"
+                v-bind:class="{ quick: isQuick(id) }"
+              >
                 <div class="wrapper">
                   <div class="icon-select" @click="enterDetails(id)">
                     <img
@@ -55,7 +58,6 @@
 </template>
 
 <script>
-import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
 
 import { mapState } from 'vuex'
@@ -66,7 +68,7 @@ export default {
     NavBar
   },
   props: ['uid', 'tid'],
-  computed: mapState(['user', 'member', 'team', 'appDir']),
+  computed: mapState(['itemsToday', 'member', 'team', 'user', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
@@ -82,13 +84,19 @@ export default {
     }
   },
   methods: {
+    isQuick(id) {
+      if (this.itemsToday[id].qid) {
+        return true
+      }
+      return false
+    },
     enterDetails(id) {
       this.$router.push({
         name: 'myTodayEntry',
         params: {
           uid: this.$route.params.uid,
           tid: this.$route.params.tid,
-          id: this.$route.params.id
+          id: id
         }
       })
     },
@@ -163,7 +171,7 @@ export default {
         await this.checkMember(this.$route.params)
         await this.checkTeam(this.$route.params)
         // if there are no items for this person; have them find some
-        if (this.items.length < 1) {
+        if (this.itemsToday.length < 1) {
           this.$router.push({
             name: 'myTodaySettings',
             params: {
@@ -183,6 +191,13 @@ export default {
 <style scoped>
 white {
   background-color: white;
+}
+.shadow-card.quick {
+  background-color: yellow;
+}
+
+.quick {
+  background-color: green;
 }
 
 div.wrapper {
