@@ -76,9 +76,9 @@ export default {
       var response = await this.checkTeam(route)
       return response
     },
-     async checkUser() {
+     async testCheckUser() {
       var route = this.setupRoute()
-      var response = await AuthorService.checkUser(route)
+      var response = await this.checkUser(route)
       return response
     },
    async getTeamFromUid() {

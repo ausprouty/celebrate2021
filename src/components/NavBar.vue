@@ -88,7 +88,7 @@ import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
-  computed: mapState(['user', 'my', 'appDir']),
+  computed: mapState(['member', 'team', 'user', 'appDir']),
   mixins: [authorMixin],
   props: {
     image: String,
@@ -301,10 +301,10 @@ export default {
       }
 
       if (typeof this.$route.params.uid == 'undefined') {
-        this.$route.params.uid = this.my.uid
+        this.$route.params.uid = this.member.uid
       }
       if (typeof this.$route.params.tid == 'undefined') {
-        this.$route.params.tid = this.my.team
+        this.$route.params.tid = this.team.tid
       }
       this.$router.push({
         name: selectedOption.link,

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import defaultUser from './default-user'
 import { saveStatePlugin } from '@/utils.js' // <-- Import saveStatePlugin
 
@@ -27,7 +26,7 @@ export default new Vuex.Store({
       game: null
     },
     teams: {},
-    todayItems: {},
+    itemsToday: {},
     appDir: {
       css: '/content/',
       styles: '/styles/',
@@ -63,67 +62,51 @@ export default new Vuex.Store({
       'November',
       'December'
     ],
-    content: {}
   },
   mutations: {
     LOGIN_USER(state, value) {
       state.user = value[0]
-      localStorage.setItem('user', JSON.stringify(state.user))
     },
     SEEING_MEMBER(state, value) {
       state.my = value
-      localStorage.setItem('my', JSON.stringify(state.my))
     },
     SET_ITEMS_TODAY(state, value) {
-      state.items = value
-      localStorage.setItem('items', JSON.stringify(state.items))
+      state.itemsToday = value
     },
     SET_MEMBER(state, value) {
       state.member = value
-      console.log(value)
-      localStorage.setItem('member', JSON.stringify(value))
     },
     SET_TEAM(state, value) {
       state.team = value
-      localStorage.setItem('team', JSON.stringify(state.team))
     },
     SET_TEAMS(state, value) {
       state.teams = value
-      localStorage.setItem('teams', JSON.stringify(state.teams))
     },
     SET_USER(state, value) {
       state.team = value
-      localStorage.setItem('user', JSON.stringify(state.user))
-    },
-    SET_TODAY_ITEMS(state, value) {
-      state.todayItems = value
-      localStorage.setItem('todayItems', JSON.stringify(state.todayItems))
     }
   },
   actions: {
     loginUser({ commit }, [mark]) {
       commit('LOGIN_USER', [mark])
     },
-    seeingMember({ commit }, { mark }) {
-      commit('SEEING_MEMBER', { mark })
+    seeingMember({ commit }, mark) {
+      commit('SEEING_MEMBER', mark)
     },
-    setItemsToay({ commit }, { mark }) {
-      commit('SET_ITEMS_TODAY', { mark })
+    setItemsToday({ commit }, mark) {
+      commit('SET_ITEMS_TODAY', mark)
     },
-    setMember({ commit }, { mark }) {
-      commit('SET_MEMBER', { mark })
+    setMember({ commit }, mark) {
+      commit('SET_MEMBER', mark)
     },
-    setTeam({ commit }, { mark }) {
-      commit('SET_TEAM', { mark })
+    setTeam({ commit }, mark) {
+      commit('SET_TEAM', mark)
     },
-    setTeams({ commit }, { mark }) {
-      commit('SET_TEAMS', { mark })
+    setTeams({ commit }, mark) {
+      commit('SET_TEAMS', mark)
     },
-    setTodayItems({ commit }, { mark }) {
-      commit('SET_TODAY_ITEMS', { mark })
-    },
-    setUser({ commit }, { mark }) {
-      commit('SET_USER', { mark })
+    setUser({ commit }, mark) {
+      commit('SET_USER', mark)
     }
   }
 })

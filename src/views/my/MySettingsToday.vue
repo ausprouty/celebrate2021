@@ -17,7 +17,7 @@
             <th>Often?</th>
           </tr>
           <tr
-            v-for="(item, id) in this.items"
+            v-for="(item, id) in this.itemsToday"
             :key="id"
             :item="item"
             class="goals hand"
@@ -68,20 +68,10 @@ export default {
     NavBar
   },
   props: ['uid', 'tid'],
-  computed: mapState(['user', 'member', 'appDir']),
+  computed: mapState(['user', 'member', 'itemsToday', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
-      items: [],
-      member: {
-        firstname: null,
-        lastname: null,
-        phone: null,
-        scope: null,
-        username: null,
-        password: null,
-        image: 'blank.png'
-      },
       highlight: true,
       saved: false
     }
@@ -94,7 +84,6 @@ export default {
   methods: {
     showDefinition(item) {
       var present = document.getElementById(item.id).innerHTML
-
       if (present == '') {
         var message = '<br>(' + item.paraphrase + ')'
         if (item.uid == this.$route.params.uid) {
@@ -194,18 +183,9 @@ export default {
     if (this.authorized) {
       try {
         this.menu = await this.menuParams('My Settings Today', 'M')
-        var params = []
-        var route = {}
-        route.uid = this.$route.params.uid
-        route.tid = this.$route.params.tid
-        route.year = new Date().getFullYear()
-        params['route'] = JSON.stringify(route)
-        console.log('for getSettingsToday')
-        console.log(params['route'])
-        this.items = await AuthorService.do('getSettingsToday', params)
-        console.log(this.items)
-        params['uid'] = this.$route.params.uid
-        this.member = await AuthorService.do('getUser', params)
+        await this.checkItemsToday(this.$route.params)
+        await this.checkMember(this.$route.params)
+        await this.checkTeam(this.$route.params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

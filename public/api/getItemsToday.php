@@ -6,23 +6,26 @@ include_once('findTeamFocus.php');
 function getItemsToday($params){
     $out = [];
 	$out['debug'] = null;
-	if (!isset($params['route'])){
-		 $out['debug'] .= 'route not set in  getItemsToday' . "\n";
-         return $out;
-	}
-
-    // decode
-	$required = array('tid','uid');
-	$verify = verifyRoute($params['route'], $required, 'getItemsToday');
-	if ($verify['debug'] != null){
-		return $verify['debug'];
-	}
-    $route = $verify['route'];
-    $focus =findTeamFocus($route->tid);
+    if (isset($params['uid'])){
+         $uid= $params['uid'];
+         $tid = $params['tid'];
+    }
+	else{
+        // decode
+        $required = array('tid','uid');
+        $verify = verifyRoute($params['route'], $required, 'getItemsToday');
+        if ($verify['debug'] != null){
+            return $verify['debug'];
+        }
+        $route = $verify['route'];
+        $uid = $route->uid;
+        $tid = $route->tid;
+    }
+    $focus =findTeamFocus($tid);
 
     // find items for quick entry
 	$sql = 'SELECT i.*, q.uid FROM items AS i
-         LEFT JOIN quick AS q
+         INNER JOIN quick AS q
          ON  i.id = q.item
         WHERE
             q.uid = :uid  OR
@@ -31,8 +34,8 @@ function getItemsToday($params){
        ORDER BY q.uid DESC, name ASC
         ';
 	$data = [
-      'uid'=> $route->uid,
-      'tid'=> $route->tid,
+      'uid'=> $uid,
+      'tid'=> $tid,
       'focus'=> $focus,
     ];
     $items = sqlReturnObjectMany($sql, $data);

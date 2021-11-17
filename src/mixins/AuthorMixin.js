@@ -166,14 +166,18 @@ export const authorMixin = {
       return params
     },
     async checkItemsToday(route) {
-      if (route.uid != this.member.uid) {
+      if (
+        route.uid != this.member.uid ||
+        typeof this.itemsToday == 'undefined'
+      ) {
         var params = []
         params['uid'] = route.uid
         params['tid'] = route.tid
         var res = await AuthorService.do('getItemsToday', params)
+        console.log(res)
         this.$store.dispatch('setItemsToday', res)
       }
-      return this.$route.params.uid
+      return
     },
     async checkMember(route) {
       if (route.uid != this.member.uid || route.tid != this.team.tid) {
@@ -181,11 +185,11 @@ export const authorMixin = {
         params['uid'] = route.uid
         params['tid'] = route.tid
         var res = await AuthorService.do('getMember', params)
-        console.log ('this is response')
-        console.log (res)
+        console.log('this is member')
+        console.log(res)
         this.$store.dispatch('setMember', res)
       }
-      return this.$route.params.uid
+      return
     },
     async checkTeam(route) {
       if (route.tid != this.team.tid) {
@@ -194,7 +198,7 @@ export const authorMixin = {
         var res = await AuthorService.do('getTeamFromTid', params)
         this.$store.dispatch('setTeam', res)
       }
-      return this.$route.params.uid
+      return
     },
     async checkUser(route) {
       if (route.uid != this.user.uid) {
@@ -203,7 +207,7 @@ export const authorMixin = {
         var res = await AuthorService.do('getUser', params)
         this.$store.dispatch('setUser', res)
       }
-      return this.$route.params.uid
+      return
     }
   }
 }

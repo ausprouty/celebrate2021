@@ -172,8 +172,6 @@ export default {
             }
           })
         }
-        params['uid'] = this.$route.params.uid
-        this.member = await AuthorService.do('getUser', params)
       } catch (error) {
         console.log('There was an error in MyToday.vue:', error) // Logs out the error
       }
