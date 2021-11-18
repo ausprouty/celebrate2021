@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import defaultUser from './default-user'
+
 import { saveStatePlugin } from '@/utils.js' // <-- Import saveStatePlugin
 
 Vue.use(Vuex)
-
-const user = JSON.parse(localStorage.getItem('user')) || defaultUser
+Vue.config.devtools = true
 
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
@@ -13,20 +12,13 @@ export default new Vuex.Store({
     user: {
       uid: null
     },
-    my: {}, // may be used by teamleder to look at other people's records
-    member: {
-      uid: null
+    viewing: {
+      user: {},
+      member: {},
+      team: {},
+      teams: {},
+      itemsToday:{}
     },
-    team: {
-      tid: null,
-      name: null,
-      strategy: null,
-      focus: null,
-      state: null,
-      game: null
-    },
-    teams: {},
-    itemsToday: {},
     appDir: {
       css: '/content/',
       styles: '/styles/',
@@ -61,29 +53,29 @@ export default new Vuex.Store({
       'October',
       'November',
       'December'
-    ],
+    ]
   },
   mutations: {
     LOGIN_USER(state, value) {
       state.user = value[0]
     },
     SEEING_MEMBER(state, value) {
-      state.my = value
+      state.viewing.member = value
     },
     SET_ITEMS_TODAY(state, value) {
-      state.itemsToday = value
+      state.viewing.itemsToday = value
     },
     SET_MEMBER(state, value) {
-      state.member = value
+      state.viewing.member = value
     },
     SET_TEAM(state, value) {
-      state.team = value
+      state.viewing.team = value
     },
     SET_TEAMS(state, value) {
-      state.teams = value
+      state.viewing.teams = value
     },
     SET_USER(state, value) {
-      state.team = value
+      state.viewing.user = value
     }
   },
   actions: {

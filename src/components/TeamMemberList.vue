@@ -1,10 +1,12 @@
 <template>
-  <div class="app-link" v-on:click="showPage(member)">
+  <div class="app-link" v-on:click="showPage(teamMember)">
     <div
       class="shadow-card -shadow"
-      v-bind:class="{ not_current: this.evaluateCurrent(member.current) }"
+      v-bind:class="{
+        not_current: this.evaluateCurrent('Y')
+      }"
     >
-      <img v-bind:src="appDir.members + this.image" class="member" />
+       <img v-bind:src="appDir.members + teamMember.image" class="member" />
 
       <div class="card-names">
         <span class="card-name"
@@ -35,20 +37,15 @@ export default {
       }
       return true
     },
-    showPage: function(member) {
-      console.log('member')
-      console.log(member)
+    showPage: function(teamMember) {
       this.$router.push({
         name: 'teamMemberSharing',
         params: {
-          uid: this.member.uid,
+          uid: teamMember.uid,
           tid: this.$route.params.tid
         }
       })
     }
-  },
-  created() {
-    this.image = this.teamMember.image
   }
 }
 </script>

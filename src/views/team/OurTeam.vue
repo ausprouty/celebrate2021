@@ -25,7 +25,7 @@
       <TeamMemberList
         v-for="teamMember in teamMembers"
         :key="teamMember.uid"
-        :member="teamMember"
+        :teamMember="teamMember"
       />
       <button class="button grey" id="update" @click="newMember">
         Add Members
@@ -88,15 +88,13 @@ export default {
         if (this.teams.length > 1) {
           this.multiple_teams = true
         }
-        this.teamMembers = await AuthorService.do('getTeamMembers', params)
-
         var route = []
         route['route'] = JSON.stringify(params)
-        this.members = await AuthorService.do(
+        this.teamMembers = await AuthorService.do(
           'getTeamMembersShowingCurrentCelebrations',
           route
         )
-        console.log(this.members)
+        console.log(this.teamMembers)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

@@ -8,8 +8,8 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="showApple()" class="important center">
-        <h2 class="center">Please install this app on your Apple Device</h2>
+      <div v-if="showPrompt()" class="important center">
+        <h2 class="center">Please install this app on your Device</h2>
         <img class="ios" src="/images/installOnIOS.png" />
         <h2 class="center">This prompt will not be shown again</h2>
         <br />
@@ -31,7 +31,7 @@
               >
                 <div class="wrapper">
                   <div class="flex-wrap" @click="enterDetails(item.id)">
-                    <div >
+                    <div>
                       <img
                         v-bind:src="
                           appDir.icons + item.celebration_set + '/' + item.image
@@ -39,7 +39,7 @@
                         class="icon"
                       />
                     </div>
-                    <div>{{ item.name }} </div>
+                    <div>{{ item.name }}</div>
                   </div>
                 </div>
               </div>
@@ -103,15 +103,17 @@ export default {
         }
       })
     },
-    showApple() {
-      let isApple = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
-      if (!isApple) {
-        var lastSeenPrompt = localStorage.getItem('lastSeenPrompt')
-        if (!lastSeenPrompt) {
-          localStorage.setItem('lastSeenPrompt', Date.now())
-          return true
-        }
+    showPrompt() {
+      //  let isApple = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+      let isApple =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+      //if (!isApple) {
+      var lastSeenPrompt = localStorage.getItem('lastSeenPrompt')
+      if (!lastSeenPrompt) {
+        localStorage.setItem('lastSeenPrompt', Date.now())
+        return true
       }
+      //}
       return false
     },
     showDetails() {

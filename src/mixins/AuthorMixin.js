@@ -141,28 +141,14 @@ export const authorMixin = {
     },
     async menuParams(breadcrumb) {
       var params = this.$route.params
-
-      params.image = 'blank.png'
+      params.image = this.user.picture
       params.breadcrumb = breadcrumb
-      console.log(params)
-      if (typeof this.my.uid != 'undefined') {
-        console.log('defined')
-        if (this.my.uid == this.menu.uid) {
-          console.log('not undefined')
-          params.image = this.my.picture
-        }
-      }
-      if (params.image == 'blank.png') {
-        var p = {}
-        // uid is blank in team
-        if (typeof this.$route.params.uid != 'undefined') {
-          p['route'] = JSON.stringify(this.$route.params)
-          var member = await AuthorService.do('getUser', p)
-          this.$store.dispatch('seeingMember', [member])
-          params.image = member.image
-        }
-        params.time = 'Time'
-      }
+      var today = new Date()
+      var dd = String(today.getDate()).padStart(2, '0')
+      var mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+      today = mm + '/' + dd
+      params.time = today
+
       return params
     },
     async checkItemsToday(route) {

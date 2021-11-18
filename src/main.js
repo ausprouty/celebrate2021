@@ -31,6 +31,7 @@ requireComponent.keys().forEach(fileName => {
   Vue.component(componentName, componentConfig.default || componentConfig)
 })
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 Vue.mixin({
   methods: {
