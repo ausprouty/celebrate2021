@@ -23,9 +23,9 @@
         </select>
       </div>
       <TeamMemberList
-        v-for="member in members"
-        :key="member.uid"
-        :member="member"
+        v-for="teamMember in teamMembers"
+        :key="teamMember.uid"
+        :member="teamMember"
       />
       <button class="button grey" id="update" @click="newMember">
         Add Members
@@ -43,6 +43,7 @@ import NavBar from '@/components/NavBar.vue'
 
 export default {
   props: ['tid'],
+  computed: mapState(['member', 'team', 'teams', 'user', 'appDir']),
   components: {
     TeamMemberList,
     NavBar
@@ -52,22 +53,8 @@ export default {
     return {
       authorized: false,
       multiple_teams: false,
-      teams: [
-        {
-          tid: null,
-          name: null
-        }
-      ],
       current_team: null,
-
-      team: [
-        {
-          tid: null,
-          code: null,
-          name: null
-        }
-      ],
-      members: [
+      teamMembers: [
         {
           firstname: null,
           lastname: null,
@@ -93,16 +80,16 @@ export default {
     async showForm(tid) {
       try {
         this.menu = await this.menuParams('Our Team', 'M')
-        var params = {}
+        var params = this.$route.params
         params.tid = tid
-        this.team = await AuthorService.do('getTeam', params)
-        this.$store.dispatch('setTeam', [this.team])
-        this.teams = await AuthorService.do('getTeams', params)
-        this.$store.dispatch('setTeams', [this.team])
-        console.log(this.teams)
+        await this.checkMember(params)
+        await this.checkTeam(params)
+        await this.checkTeams(params)
         if (this.teams.length > 1) {
           this.multiple_teams = true
         }
+        this.teamMembers = await AuthorService.do('getTeamMembers', params)
+
         var route = []
         route['route'] = JSON.stringify(params)
         this.members = await AuthorService.do(
@@ -136,4 +123,9 @@ export default {
   }
 }
 </script>
-<style scoped></style>
+<style scoped>
+select {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+</style>

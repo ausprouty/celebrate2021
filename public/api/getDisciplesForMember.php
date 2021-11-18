@@ -1,6 +1,6 @@
 <?php
 
-function getDisciples($params){
+function getDisciplesForMember($params){
 	$out['debug'] = [];
 	if (!isset($params['route'])){
 		 $out['debug'] = 'Route not set in getMembers';
@@ -10,9 +10,9 @@ function getDisciples($params){
 		return $out;
 	}
 	$route = json_decode($params['route']) ;
-	$sql = 'SELECT * FROM disciples WHERE 
+	$sql = 'SELECT * FROM disciples WHERE
 		uid = :uid AND
-		tid = :tid 
+		tid = :tid
 		ORDER BY firstname';
 	$data= array(
 		'uid'=> $route->uid,

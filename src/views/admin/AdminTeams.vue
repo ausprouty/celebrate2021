@@ -9,7 +9,7 @@
     </div>
     <div v-if="this.authorized">
       <h1 class="center">Teams</h1>
-      <TeamList v-for="team in teams" :key="team.tid" :team="team" />
+      <TeamList v-for="team in universe" :key="team.tid" :team="team" />
       <button class="button green" id="update" @click="newTeam">New Team</button>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       authorized: false,
-      teams: {}
+      universe: []
     }
   },
   computed: mapState(['team']),
@@ -55,7 +55,7 @@ export default {
       try {
         this.menu = await this.menuParams('Teams', 'M')
         var params = {}
-        this.teams = await AuthorService.do('getTeams', params)
+        this.universe = await AuthorService.do('getTeamsForAdmin', params)
         console.log(this.teams)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

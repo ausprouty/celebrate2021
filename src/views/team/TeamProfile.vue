@@ -45,8 +45,12 @@
         />
 
         <br />
-        <button class="button green" id="update" @click="saveForm">Update</button>
-        <button class="button red" id="delete" @click="deleteForm">Delete</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
+        <button class="button red" id="delete" @click="deleteForm">
+          Delete
+        </button>
       </form>
     </div>
   </div>
@@ -69,21 +73,13 @@ export default {
   mixins: [authorMixin],
   data() {
     return {
-      team: {
-        tid: null,
-        name: null,
-        strategy: null,
-        focus: null,
-        state: null,
-        game: null
-      },
       team_image: null,
       submitted: false,
       wrong: null,
       registered: true
     }
   },
-  computed: mapState(['focus_areas', 'states', 'strategies', 'user']),
+  computed: mapState(['focus_areas', 'states', 'team', 'strategies', 'user']),
   validations: {
     team: {
       name: { required },
@@ -103,7 +99,7 @@ export default {
           params.authorizer = this.user.uid
           console.log(params)
           if (this.team.tid) {
-            await AuthorService.do('updateTeamProfile',params)
+            await AuthorService.do('updateTeamProfile', params)
             this.$router.push({
               name: 'ourTeam',
               params: {
@@ -151,16 +147,11 @@ export default {
       if (this.authorized) {
         try {
           this.menu = await this.menuParams('Team Profile', 'M')
-          var params = {}
-          if (this.$route.params.tid) {
-            params.tid = this.$route.params.tid
-            this.team = await AuthorService.do('getTeam', params)
-            console.log(this.team)
-            if (this.team.image) {
-              this.team_image = this.team.image
-            }
-            console.log(this.team)
+          await this.checkTeam(this.$route.params)
+          if (this.team.image) {
+            this.team_image = this.team.image
           }
+          console.log(this.team)
         } catch (error) {
           console.log('There was an error in TeamProfile.vue:', error) // Logs out the error
         }

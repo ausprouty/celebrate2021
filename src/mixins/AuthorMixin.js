@@ -200,6 +200,15 @@ export const authorMixin = {
       }
       return
     },
+    async checkTeams(route) {
+      if (route.tid != this.team.tid || Object.keys(this.teams).length === 0) {
+        var params = []
+        params['uid'] = route.uid
+        var res = await AuthorService.do('getTeamsForMember', params)
+        this.$store.dispatch('setTeams', res)
+      }
+      return
+    },
     async checkUser(route) {
       if (route.uid != this.user.uid) {
         var params = []

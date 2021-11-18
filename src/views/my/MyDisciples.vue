@@ -10,7 +10,6 @@
     <div v-if="this.authorized">
       <h2 class="center">Who are you discipling?</h2>
       <div class="definitions">
-        <p>People I have met with in the past three months</p>
         <div v-for="(item, id) in items" :key="id" :item="item">
           <div v-if="discipleshipItem(item.id)">
             <p>
@@ -23,7 +22,6 @@
       <form @submit.prevent="saveForm">
         <table class="goals">
           <tr>
-            <th>Group</th>
             <th>Name</th>
             <th>Progress</th>
           </tr>
@@ -33,11 +31,12 @@
             :disciple="disciple"
             class="disciples"
           >
-            <td class="group">
-              <input class="group" type="text" v-model="disciple.group_name" />
-            </td>
             <td class="firstname">
-              <input class="firstname" type="text" v-model="disciple.firstname" />
+              <input
+                class="firstname"
+                type="text"
+                v-model="disciple.firstname"
+              />
             </td>
             <td class="progress">
               <select v-model="disciple.progress">
@@ -56,11 +55,12 @@
             :new_disciple="new_disciple"
             class="disciples"
           >
-            <td class="group">
-              <input class="group" type="text" v-model="new_disciple.group_name" />
-            </td>
             <td class="firstname">
-              <input class="firstname" type="text" v-model="new_disciple.firstname" />
+              <input
+                class="firstname"
+                type="text"
+                v-model="new_disciple.firstname"
+              />
             </td>
             <td class="progress">
               <select v-model="new_disciple.progress">
@@ -75,7 +75,9 @@
         </table>
 
         <br />
-        <button id="update" class="button green" @click="saveForm">Update</button>
+        <button id="update" class="button green" @click="saveForm">
+          Update
+        </button>
       </form>
     </div>
   </div>
@@ -104,32 +106,27 @@ export default {
         {
           id: 'A',
           firstname: '',
-          progress: '',
-          group_name: ''
+          progress: ''
         },
         {
           id: 'B',
           firstname: '',
-          progress: '',
-          group_name: ''
+          progress: ''
         },
         {
           id: 'C',
           firstname: '',
-          progress: '',
-          group_name: ''
+          progress: ''
         },
         {
           id: 'D',
           firstname: '',
-          progress: '',
-          group_name: ''
+          progress: ''
         },
         {
           id: 'E',
           firstname: '',
-          progress: '',
-          group_name: ''
+          progress: ''
         }
       ],
       disciple: {
@@ -191,21 +188,14 @@ export default {
     if (this.authorized) {
       try {
         this.menu = await this.menuParams('My Disciples', 'M')
-        var params = []
-        console.log(this.progress_options)
-        var route = {}
-        params['uid'] = this.$route.params.uid
-        this.member = await AuthorService.do('getUser', params)
-        console.log(this.member)
+        await this.checkMember(this.$route.params)
         if (this.member.image) {
           this.member_image = '/images/members/' + this.member.image
         }
-        route.uid = this.$route.params.uid
-        route.tid = this.$route.params.tid
-        route.year = new Date().getFullYear()
-        params['route'] = JSON.stringify(route)
+        var params = []
+        params['route'] = JSON.stringify(this.$route.params)
         console.log(params)
-        this.disciples = await AuthorService.do('getDisciples', params)
+        this.disciples = await AuthorService.do('getDisciplesForMember', params)
         this.items = await AuthorService.getItemsStandard(params)
 
         console.log(this.disciples)

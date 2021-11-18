@@ -8,7 +8,7 @@
 
       <div class="card-names">
         <span class="card-name"
-          >{{ member.firstname }} {{ member.lastname }}</span
+          >{{ teamMember.firstname }} {{ teamMember.lastname }}</span
         >
       </div>
     </div>
@@ -19,7 +19,7 @@
 import { mapState } from 'vuex'
 export default {
   props: {
-    member: Object
+    teamMember: Object
   },
 
   data: function() {
@@ -48,7 +48,7 @@ export default {
     }
   },
   created() {
-    this.image = this.member.image
+    this.image = this.teamMember.image
   }
 }
 </script>
