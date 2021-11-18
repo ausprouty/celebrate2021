@@ -301,10 +301,10 @@ export default {
       }
 
       if (typeof this.$route.params.uid == 'undefined') {
-        this.$route.params.uid = this.member.uid
+        this.$route.params.uid = this.viewing.user.uid
       }
       if (typeof this.$route.params.tid == 'undefined') {
-        this.$route.params.tid = this.team.tid
+        this.$route.params.tid = this.viewing.team.tid
       }
       this.$router.push({
         name: selectedOption.link,

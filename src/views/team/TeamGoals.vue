@@ -8,8 +8,8 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="this.team.image">
-        <img v-bind:src="this.team.image" class="team" />
+      <div v-if="this.viewing.team.image">
+        <img v-bind:src="this.viewing.team.image" class="team" />
       </div>
       <h2 class="center">When do you want our team to throw a party?</h2>
       <p class="center">Pick two or more of these and enter a goal.</p>
@@ -212,7 +212,7 @@ export default {
         params['route'] = JSON.stringify(route)
         this.team = await AuthorService.do('getTeam', params)
         console.log('this team')
-        console.log(this.team.image)
+        console.log(this.viewing.team.image)
         this.items = await AuthorService.do('getGoals', params)
         console.log(this.items)
       } catch (error) {

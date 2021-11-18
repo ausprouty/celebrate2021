@@ -1,5 +1,5 @@
 <template>
-  <div class="app-link hand" v-on:click="showTeam(team)">
+  <div class="app-link hand" v-on:click="showTeam(team.tid)">
     <div class="shadow-card -shadow">
       <div class="card-name">{{ team.name }}</div>
       <div class="strategy">{{ team.strategy }} -- {{ team.focus }}</div>
@@ -13,11 +13,11 @@ export default {
     team: Object
   },
   methods: {
-    showTeam: function() {
+    showTeam: function(tid) {
       this.$router.push({
         name: 'teamProfile',
         params: {
-          tid: this.team.tid
+          tid: tid
         }
       })
     }

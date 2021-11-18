@@ -9,12 +9,12 @@
     </div>
     <div v-if="this.authorized">
       <div v-if="!this.multiple_teams">
-        <h1 class="center">{{ this.team.name }}</h1>
+        <h1 class="center">{{ this.viewing.team.name }}</h1>
       </div>
       <div v-if="this.multiple_teams">
         <select v-model="current_team">
           <option
-            v-for="(team, tid) in teams"
+            v-for="(team, tid) in viewing.teams"
             v-bind:key="tid"
             :value="team.tid"
           >
@@ -22,11 +22,17 @@
           </option>
         </select>
       </div>
-      <TeamMemberList
-        v-for="teamMember in teamMembers"
-        :key="teamMember.uid"
-        :teamMember="teamMember"
-      />
+      <div v-if="this.has_members">
+        <TeamMemberList
+          v-for="teamMember in teamMembers"
+          :key="teamMember.uid"
+          :teamMember="teamMember"
+        />
+      </div>
+      <div v-if="!this.has_members">
+        <h2>There are not any members on this team yet</h2>
+      </div>
+
       <button class="button grey" id="update" @click="newMember">
         Add Members
       </button>
@@ -42,7 +48,7 @@ import { mapState } from 'vuex'
 import NavBar from '@/components/NavBar.vue'
 
 export default {
-  props: ['tid'],
+  props: ['tid', 'uid'],
   computed: mapState(['view', 'user', 'appDir']),
   components: {
     TeamMemberList,
@@ -54,6 +60,7 @@ export default {
       authorized: false,
       multiple_teams: false,
       current_team: null,
+      has_members: false,
       teamMembers: [
         {
           firstname: null,
@@ -81,19 +88,27 @@ export default {
       try {
         this.menu = await this.menuParams('Our Team', 'M')
         var params = this.$route.params
+        if (typeof params.uid == 'undefined') {
+          params.uid = this.viewing.user.uid
+        }
         params.tid = tid
         await this.checkMember(params)
         await this.checkTeam(params)
         await this.checkTeams(params)
-        if (this.teams.length > 1) {
+        if (this.viewing.teams.length > 1) {
           this.multiple_teams = true
         }
         var route = []
         route['route'] = JSON.stringify(params)
+        console.log(route)
         this.teamMembers = await AuthorService.do(
           'getTeamMembersShowingCurrentCelebrations',
           route
         )
+        if (this.teamMembers.length > 1) {
+          this.has_members = true
+        }
+        console.log('this.teamMembers')
         console.log(this.teamMembers)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

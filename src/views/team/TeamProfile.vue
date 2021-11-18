@@ -8,15 +8,17 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2 v-if="team.name" class="center">Update {{ team.name }}</h2>
-      <h2 v-if="!team.name" class="center">New Team</h2>
+      <h2 v-if="teamProfile.name" class="center">
+        Update {{ teamProfile.name }}
+      </h2>
+      <h2 v-if="!teamProfile.name" class="center">New Team</h2>
       <div v-if="this.team_image">
         <img v-bind:src="this.team_image" class="team" />
       </div>
 
       <form @submit.prevent="saveForm">
         <BaseInput
-          v-model="$v.team.name.$model"
+          v-model="$v.teamProfile.name.$model"
           label="Team Name"
           type="text"
           placeholder
@@ -28,29 +30,38 @@
         <BaseSelect
           label="Strategy"
           :options="this.strategies"
-          v-model="$v.team.strategy.$model"
+          v-model="$v.teamProfile.strategy.$model"
           class="field"
         />
         <BaseSelect
           label="Focus"
           :options="this.focus_areas"
-          v-model="$v.team.focus.$model"
+          v-model="$v.teamProfile.focus.$model"
           class="field"
         />
         <BaseSelect
           label="State"
           :options="this.states"
-          v-model="$v.team.state.$model"
+          v-model="$v.teamProfile.state.$model"
           class="field"
         />
 
         <br />
-        <button class="button green" id="update" @click="saveForm">
-          Update
-        </button>
-        <button class="button red" id="delete" @click="deleteForm">
-          Delete
-        </button>
+        <div>
+          <button class="button green" id="save" @click="saveForm">
+            Update
+          </button>
+        </div>
+        <div>
+          <button class="button red" id="visit" @click="visitTeam">
+            Visit
+          </button>
+        </div>
+        <div>
+          <button class="button red" id="delete" @click="deleteForm">
+            Delete
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -76,12 +87,18 @@ export default {
       team_image: null,
       submitted: false,
       wrong: null,
-      registered: true
+      registered: true,
+      teamProfile: {
+        name: null,
+        strategy: null,
+        focus: null,
+        state: null
+      }
     }
   },
   computed: mapState(['view', 'user', 'focus_areas', 'states', 'strategies']),
   validations: {
-    team: {
+    teamProfile: {
       name: { required },
       strategy: { required },
       focus: { required },
@@ -95,25 +112,19 @@ export default {
           this.saved = true
           this.disableButton('update')
           this.disableButton('delete')
-          var params = this.team
+          var params = this.teamProfile
           params.authorizer = this.user.uid
           console.log(params)
-          if (this.team.tid) {
+          if (this.viewing.team.tid) {
             await AuthorService.do('updateTeamProfile', params)
             this.$router.push({
-              name: 'ourTeam',
-              params: {
-                tid: this.$route.params.tid
-              }
+              name: 'adminTeams'
             })
           } else {
             var resp = await AuthorService.do('createTeamProfile', params)
             console.log(resp)
             this.$router.push({
-              name: 'ourTeam',
-              params: {
-                tid: resp.tid
-              }
+              name: 'adminTeams'
             })
           }
         }
@@ -121,12 +132,21 @@ export default {
         console.log('Update There was an error ', error) //
       }
     },
+    async visitTeam() {
+      this.clearView()
+      this.$router.push({
+        name: 'ourTeam',
+        params: {
+          tid: this.teamProfile.tid
+        }
+      })
+    },
 
     async deleteForm() {
       try {
         this.disableButton('update')
         this.disableButton('delete')
-        var params = this.team
+        var params = this.teamProfile
         params.authorizer = this.user.uid
         let res = await AuthorService.deleteTeam(params)
         if (res.data.error) {
@@ -148,10 +168,11 @@ export default {
         try {
           this.menu = await this.menuParams('Team Profile', 'M')
           await this.checkTeam(this.$route.params)
-          if (this.team.image) {
-            this.team_image = this.team.image
+          this.teamProfile = this.viewing.team
+          if (this.viewing.team.image) {
+            this.team_image = this.viewing.team.image
           }
-          console.log(this.team)
+          console.log(this.teamProfile)
         } catch (error) {
           console.log('There was an error in TeamProfile.vue:', error) // Logs out the error
         }

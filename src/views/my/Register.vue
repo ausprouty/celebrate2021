@@ -128,12 +128,12 @@ export default {
             console.log(this.user)
             this.$store.dispatch('loginUser', [this.user])
             this.team = await AuthorService.getTeam(this.user.uid)
-            this.$store.dispatch('setTeam', [this.team.tid])
+            this.$store.dispatch('setTeam', [this.viewing.team.tid])
             this.$router.push({
               name: 'myToday',
               params: {
                 uid: this.user.uid,
-                tid: this.team.tid
+                tid: this.viewing.team.tid
               }
             })
           } else {

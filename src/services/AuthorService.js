@@ -1,7 +1,6 @@
 import axios from 'axios'
 import store from '@/store/store.js'
 
-
 const apiURL = process.env.VUE_APP_API_URL
 const backEnd = process.env.VUE_APP_STANDARD_BACKEND
 
@@ -20,7 +19,6 @@ const apiSECURE = axios.create({
 // I want to export a JSON.stringified of response.data.content.text
 export default {
   /////////////////////////////////////////////////
-
 
   async do(what, params) {
     console.log(what)
@@ -150,9 +148,9 @@ export default {
   },
 
   toAuthorizedFormData(params) {
-    if (typeof this.user != 'undefined') {
-      params.my_uid = this.user.uid
-      params.token = this.user.token
+    if (typeof store.state.user != 'undefined') {
+      params.my_uid = store.state.user.uid
+      params.token = store.state.user.token
     }
     var form_data = new FormData()
     for (var key in params) {

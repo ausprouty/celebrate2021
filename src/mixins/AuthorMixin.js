@@ -151,10 +151,18 @@ export const authorMixin = {
 
       return params
     },
+    clearView() {
+      var res = {}
+      this.$store.dispatch('setItemsToday', res)
+      this.$store.dispatch('setMember', res)
+      this.$store.dispatch('setTeam', res)
+      this.$store.dispatch('setTeams', res)
+    },
+
     async checkItemsToday(route) {
       if (
         route.uid != this.viewing.member.uid ||
-        typeof this.viewing.itemsToday == 'undefined'
+        Object.keys(this.viewing.itemsToday).length === 0
       ) {
         var params = []
         params['uid'] = route.uid

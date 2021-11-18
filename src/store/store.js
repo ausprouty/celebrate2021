@@ -59,6 +59,8 @@ export default new Vuex.Store({
     LOGIN_USER(state, value) {
       state.user = value[0]
       localStorage.setItem('user', JSON.stringify(state.user))
+      state.viewing.user = value[0]
+      localStorage.setItem('viewing_user', JSON.stringify(state.user))
     },
     SEEING_MEMBER(state, value) {
       state.viewing.member = value

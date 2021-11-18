@@ -8,8 +8,8 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-      <div v-if="this.team.image" class="center confetti">
-        <img v-bind:src="this.team.image" class="team-small" />
+      <div v-if="this.viewing.team.image" class="center confetti">
+        <img v-bind:src="this.viewing.team.image" class="team-small" />
       </div>
 
       <div>

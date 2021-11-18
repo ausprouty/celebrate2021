@@ -129,7 +129,7 @@ export default {
           name: 'myToday',
           params: {
             uid: this.user.uid,
-            tid: this.team.tid
+            tid: this.viewing.team.tid
           }
         })
       }

@@ -75,7 +75,6 @@ export default {
   mixins: [authorMixin],
   data() {
     return {
-      items: [],
       please_open: null,
       highlight: true,
       saved: false
@@ -149,8 +148,6 @@ export default {
       return false
     },
     async updateSettings() {
-      this.saveForm()
-
       this.$router.push({
         name: 'myTodaySettings',
         params: {
