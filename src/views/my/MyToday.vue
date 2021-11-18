@@ -19,7 +19,7 @@
       <div class="subheading">
         <form @submit.prevent="saveForm">
           <div
-            v-for="(item, id) in this.itemsToday"
+            v-for="(item, id) in this.viewing.itemsToday"
             :key="id"
             :item="item"
             class="progress"
@@ -71,7 +71,7 @@ export default {
     NavBar
   },
   props: ['uid', 'tid'],
-  computed: mapState(['itemsToday', 'member', 'team', 'user', 'appDir']),
+  computed: mapState(['user', 'viewing', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     isQuick(id) {
-      if (this.itemsToday[id].qid) {
+      if (this.viewing.itemsToday[id].qid) {
         return true
       }
       return false
@@ -176,7 +176,7 @@ export default {
         await this.checkMember(this.$route.params)
         await this.checkTeam(this.$route.params)
         // if there are no items for this person; have them find some
-        if (this.itemsToday.length < 1) {
+        if (this.viewing.itemsToday.length < 1) {
           this.$router.push({
             name: 'myTodaySettings',
             params: {

@@ -79,7 +79,7 @@ export default {
       registered: true
     }
   },
-  computed: mapState(['focus_areas', 'states', 'team', 'strategies', 'user']),
+  computed: mapState(['view', 'user', 'focus_areas', 'states', 'strategies']),
   validations: {
     team: {
       name: { required },

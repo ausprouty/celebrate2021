@@ -84,7 +84,7 @@ import vSelect from 'vue-select'
 import '@/assets/css/vueSelect.css'
 export default {
   props: ['tid', 'id'],
-  computed: mapState(['user']),
+  computed: mapState(['view', 'user',]),
   components: {
     NavBar,
     'v-select': vSelect

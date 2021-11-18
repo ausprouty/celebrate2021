@@ -8,7 +8,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  computed: mapState(['user', 'member', 'team']),
+  computed: mapState(['user', 'viewing']),
   methods: {
     async created() {
       this.user = null

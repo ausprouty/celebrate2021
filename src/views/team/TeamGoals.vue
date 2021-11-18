@@ -72,7 +72,7 @@ export default {
     NavBar
   },
   props: ['tid'],
-  computed: mapState(['user', 'appDir']),
+  computed: mapState(['view', 'user','appDir']),
   mixins: [authorMixin],
   data() {
     return {

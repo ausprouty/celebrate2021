@@ -41,15 +41,18 @@
           Key:
           <span class="last_year">{{ this.res.last_year }}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span
-            class="this_year"
-          >{{ this.res.this_year }}</span>
+          <span class="this_year">{{ this.res.this_year }}</span>
         </div>
       </div>
       <div class="select">
         <form @submit.prevent="saveForm">
           Show:
-          <v-select :options="scope" label="name" @input="updateData" v-model="selected">
+          <v-select
+            :options="scope"
+            label="name"
+            @input="updateData"
+            v-model="selected"
+          >
             <template slot="option" slot-scope="option">
               <img
                 :src="
@@ -83,7 +86,7 @@ export default {
   },
 
   props: ['uid', 'tid', 'year', 'item'],
-  computed: mapState(['user', 'member', 'appDir', 'months']),
+  computed: mapState(['user', 'viewing', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {

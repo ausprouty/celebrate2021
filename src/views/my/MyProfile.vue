@@ -101,7 +101,7 @@ export default {
   },
   props: ['uid'],
   mixins: [authorMixin],
-  computed: mapState(['user', 'appDir']),
+  computed: mapState(['user', 'viewing', 'appDir']),
   data() {
     return {
       member: {

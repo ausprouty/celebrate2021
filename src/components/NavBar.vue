@@ -88,7 +88,7 @@ import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
-  computed: mapState(['member', 'team', 'user', 'appDir']),
+  computed: mapState([ 'user', 'viewing', 'appDir']),
   mixins: [authorMixin],
   props: {
     image: String,

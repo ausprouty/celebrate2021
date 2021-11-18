@@ -44,10 +44,9 @@ export default {
       var params = {}
       params.recnum = 387
       params.library_code = 'friends'
-      
-      var response = await PrototypeService.publish('bookmark', params)
-      console.log(response)
-      
+
+
+
     }
   }
 }

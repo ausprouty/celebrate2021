@@ -52,7 +52,7 @@ export default {
   },
 
   props: ['uid', 'tid'],
-  computed: mapState(['user', 'appDir', 'months']),
+  computed: mapState(['view', 'user','appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {

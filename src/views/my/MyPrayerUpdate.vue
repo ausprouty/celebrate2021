@@ -94,7 +94,7 @@ export default {
   },
 
   props: ['uid', 'tid', 'pid'],
-  computed: mapState(['user', 'appDir', 'months']),
+  computed: mapState(['user', 'viewing', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {

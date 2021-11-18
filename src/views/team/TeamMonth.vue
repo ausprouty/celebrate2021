@@ -149,7 +149,7 @@ export default {
     ItemEntryPrayer
   },
 
-  props: ['uid', 'tid', 'year', 'month', 'page'],
+  props: ['view', 'user', 'year', 'month', 'page'],
   computed: mapState(['user', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {

@@ -56,7 +56,7 @@ export default {
     PrayerList
   },
 
-  props: ['uid', 'tid', 'year', 'month', 'page'],
+  props: ['user', 'viewing','year', 'month', 'page'],
   computed: mapState(['user', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {

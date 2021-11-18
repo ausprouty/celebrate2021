@@ -35,7 +35,7 @@ export default {
       universe: []
     }
   },
-  computed: mapState(['team']),
+  computed: mapState('view', 'user'),
   methods: {
     newTeam() {
       this.$router.push({

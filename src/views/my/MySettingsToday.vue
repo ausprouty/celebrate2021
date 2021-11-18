@@ -17,7 +17,7 @@
             <th>Often?</th>
           </tr>
           <tr
-            v-for="(item, id) in this.itemsToday"
+            v-for="(item, id) in this.viewing.itemsToday"
             :key="id"
             :item="item"
             class="goals hand"
@@ -68,7 +68,7 @@ export default {
     NavBar
   },
   props: ['uid', 'tid'],
-  computed: mapState(['user', 'member', 'itemsToday', 'appDir']),
+  computed: mapState(['user', 'viewing', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
@@ -136,10 +136,10 @@ export default {
           var params = {}
           var plan = []
           var now = {}
-          var l = this.itemsToday.length
+          var l = this.viewing.itemsToday.length
           for (var i = 0; i < l; i++) {
-            now.id = this.itemsToday[i]['id']
-            if (this.itemsToday[i]['quick']) {
+            now.id = this.viewing.itemsToday[i]['id']
+            if (this.viewing.itemsToday[i]['quick']) {
               now.quick = 'Y'
             } else {
               now.quick = 'N'

@@ -92,7 +92,7 @@ export default {
   },
 
   props: ['uid', 'tid', 'todayid', 'month', 'year'],
-  computed: mapState(['itemsToday', 'member', 'user', 'appDir', 'months']),
+  computed: mapState(['user', 'viewing', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {
@@ -163,9 +163,9 @@ export default {
         await this.checkItemsToday(this.$route.params)
         await this.checkMember(this.$route.params)
         await this.checkTeam(this.$route.params)
-        for (var i = 0; i < this.itemsToday.length; i++) {
-          if (this.itemsToday[i].id == this.$route.params.id) {
-            this.item = this.itemsToday[i]
+        for (var i = 0; i < this.viewing.itemsToday.length; i++) {
+          if (this.viewing.itemsToday[i].id == this.$route.params.id) {
+            this.item = this.viewing.itemsToday[i]
             let params = []
             params['route'] = JSON.stringify(this.$route.params)
             var res = await AuthorService.do(

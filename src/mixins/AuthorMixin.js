@@ -5,7 +5,7 @@ import { mapState } from 'vuex'
 Vue.use(Vuex)
 
 export const authorMixin = {
-  computed: mapState(['member', 'team', 'user', 'my']),
+  computed: mapState(['viewing', 'user']),
   data() {
     return {
       menu: {
@@ -141,7 +141,7 @@ export const authorMixin = {
     },
     async menuParams(breadcrumb) {
       var params = this.$route.params
-      params.image = this.user.picture
+      params.image = this.viewing.user.picture
       params.breadcrumb = breadcrumb
       var today = new Date()
       var dd = String(today.getDate()).padStart(2, '0')
@@ -153,8 +153,8 @@ export const authorMixin = {
     },
     async checkItemsToday(route) {
       if (
-        route.uid != this.member.uid ||
-        typeof this.itemsToday == 'undefined'
+        route.uid != this.viewing.member.uid ||
+        typeof this.viewing.itemsToday == 'undefined'
       ) {
         var params = []
         params['uid'] = route.uid
@@ -166,7 +166,10 @@ export const authorMixin = {
       return
     },
     async checkMember(route) {
-      if (route.uid != this.member.uid || route.tid != this.team.tid) {
+      if (
+        route.uid != this.viewing.member.uid ||
+        route.tid != this.viewing.team.tid
+      ) {
         var params = []
         params['uid'] = route.uid
         params['tid'] = route.tid
@@ -178,7 +181,7 @@ export const authorMixin = {
       return
     },
     async checkTeam(route) {
-      if (route.tid != this.team.tid) {
+      if (route.tid != this.viewing.team.tid) {
         var params = []
         params['tid'] = route.tid
         var res = await AuthorService.do('getTeamFromTid', params)
@@ -187,7 +190,10 @@ export const authorMixin = {
       return
     },
     async checkTeams(route) {
-      if (route.tid != this.team.tid || Object.keys(this.teams).length === 0) {
+      if (
+        route.tid != this.viewing.team.tid ||
+        Object.keys(this.viewing.teams).length === 0
+      ) {
         var params = []
         params['uid'] = route.uid
         var res = await AuthorService.do('getTeamsForMember', params)
@@ -196,7 +202,7 @@ export const authorMixin = {
       return
     },
     async checkUser(route) {
-      if (route.uid != this.user.uid) {
+      if (route.uid != this.viewing.user.uid) {
         var params = []
         params['uid'] = route.uid
         var res = await AuthorService.do('getUser', params)

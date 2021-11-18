@@ -58,24 +58,30 @@ export default new Vuex.Store({
   mutations: {
     LOGIN_USER(state, value) {
       state.user = value[0]
+      localStorage.setItem('user', JSON.stringify(state.user))
     },
     SEEING_MEMBER(state, value) {
       state.viewing.member = value
+      localStorage.setItem('viewing_member', JSON.stringify(value))
     },
     SET_ITEMS_TODAY(state, value) {
       state.viewing.itemsToday = value
+      localStorage.setItem('viewing_itemsToday', JSON.stringify(value))
     },
     SET_MEMBER(state, value) {
       state.viewing.member = value
+      localStorage.setItem('viewing_member', JSON.stringify(value))
     },
     SET_TEAM(state, value) {
       state.viewing.team = value
+      localStorage.setItem('viewing_team', JSON.stringify(value))
     },
     SET_TEAMS(state, value) {
       state.viewing.teams = value
     },
     SET_USER(state, value) {
       state.viewing.user = value
+      localStorage.setItem('viewing_user', JSON.stringify(value))
     }
   },
   actions: {

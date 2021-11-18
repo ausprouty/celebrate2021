@@ -59,7 +59,7 @@ export default {
       wrong: null
     }
   },
-  computed: mapState(['user', 'member', 'team']),
+  computed: mapState(['user', 'viewing']),
   validations: {
     email: { required },
     password: { required }

@@ -43,7 +43,7 @@ import NavBar from '@/components/NavBar.vue'
 
 export default {
   props: ['tid'],
-  computed: mapState(['member', 'team', 'teams', 'user', 'appDir']),
+  computed: mapState(['view', 'user', 'appDir']),
   components: {
     TeamMemberList,
     NavBar
