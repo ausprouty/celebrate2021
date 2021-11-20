@@ -9,6 +9,10 @@
     </router-link>
 
     <div class="container">
+      <div class="breadcrumb">{{ this.breadcrumb }}</div>
+      <div class="back hand float" @click="goBack()">
+        <img class="icon hand" src="/images/icons/admin/back_48x48.png" />
+      </div>
       <div class="hand pad float" @click="showMyMenu()">
         <img class="icon hand" src="/images/icons/personal/person_48x48.png" />
       </div>
@@ -84,7 +88,7 @@ import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
-  computed: mapState(['user', 'viewing', 'appDir']),
+  computed: mapState([ 'user', 'viewing', 'appDir']),
   mixins: [authorMixin],
   props: {
     image: String,
@@ -113,7 +117,13 @@ export default {
           link: 'adminTrainings',
           url: 'admin/trainings/'
         },
-
+        {
+          index: 2,
+          value: 'Post to Cru',
+          show: true,
+          link: 'adminPost',
+          url: 'admin/post/'
+        },
         {
           index: 3,
           value: 'Celebration Sets',
@@ -145,11 +155,40 @@ export default {
           url: 'my/prayers/'
         },
         {
+          index: 2,
+          value: 'My Disciples',
+          show: true,
+          link: 'myDisciples',
+          url: 'my/disciples/'
+        },
+        {
+          index: 3,
+          value: 'My Month',
+          show: true,
+          link: 'myMonth',
+          url: 'my/month/'
+        },
+        {
+          index: 4,
+          value: 'My Goals',
+          show: true,
+          link: 'myGoals',
+          url: 'my/goals/'
+        },
+        {
           index: 5,
-          value: 'My Celebrations',
+          value: 'My Year',
           show: true,
           link: 'myYear',
           url: 'my/year/'
+        },
+
+        {
+          index: 6,
+          value: 'My Profile',
+          show: true,
+          link: 'myProfile',
+          url: 'my/profile/'
         },
 
         {
@@ -166,24 +205,42 @@ export default {
           value: 'Our Team',
           show: true,
           link: 'ourTeam',
-          url: '/team/members/',
-          permission: 'member'
+          url: '/team/members/'
         },
         {
           index: 1,
-          value: 'Our Prayers',
+          value: 'Monthly Progress',
           show: true,
-          link: 'teamPrayer',
-          url: '/team/prayer/',
-          permission: 'member'
+          link: 'teamMonth',
+          url: '/team/month/'
         },
         {
           index: 2,
-          value: 'Our Celebrations',
+          value: 'Yearly Progress',
           show: true,
           link: 'teamYear',
-          url: '/team/year/',
-          permission: 'member'
+          url: '/team/year/'
+        },
+        {
+          index: 3,
+          value: 'Team Goals',
+          show: false,
+          link: 'teamGoals',
+          url: '/team/goals/'
+        },
+        {
+          index: 4,
+          value: 'Team Events',
+          show: false,
+          link: 'teamEvents',
+          url: '/team/events/'
+        },
+        {
+          index: 5,
+          value: 'Team Profile',
+          show: true,
+          link: 'teamProfile',
+          url: '/team/profile/'
         }
       ]
     }

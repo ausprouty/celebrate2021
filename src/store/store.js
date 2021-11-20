@@ -90,6 +90,9 @@ export default new Vuex.Store({
     loginUser({ commit }, [mark]) {
       commit('LOGIN_USER', [mark])
     },
+    logout({ commit }, [mark]) {
+      commit('LOGIN_USER', [mark])
+    },
     seeingMember({ commit }, mark) {
       commit('SEEING_MEMBER', mark)
     },

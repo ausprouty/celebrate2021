@@ -7,13 +7,14 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   computed: mapState(['user', 'viewing']),
+  mixins: [authorMixin],
   methods: {
     async created() {
-      this.user = null
-      this.member = null
-      this.member = null
+      this.clearView()
+      this.logout()
     }
   }
 }

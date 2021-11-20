@@ -189,8 +189,8 @@ export default {
       try {
         this.menu = await this.menuParams('My Disciples', 'M')
         await this.checkMember(this.$route.params)
-        if (this.member.image) {
-          this.member_image = '/images/members/' + this.member.image
+        if (this.viewing.member.image) {
+          this.member_image = '/images/members/' + this.viewing.member.image
         }
         var params = []
         params['route'] = JSON.stringify(this.$route.params)

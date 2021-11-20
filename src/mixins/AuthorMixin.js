@@ -151,6 +151,10 @@ export const authorMixin = {
 
       return params
     },
+    logout() {
+      var res = {}
+      this.$store.dispatch('logout', res)
+    },
     clearView() {
       var res = {}
       this.$store.dispatch('setItemsToday', res)
@@ -189,7 +193,10 @@ export const authorMixin = {
       return
     },
     async checkTeam(route) {
-      if (route.tid != this.viewing.team.tid) {
+      if (
+        route.tid != this.viewing.team.tid ||
+        Object.keys(this.viewing.team).length === 0
+      ) {
         var params = []
         params['tid'] = route.tid
         var res = await AuthorService.do('getTeamFromTid', params)

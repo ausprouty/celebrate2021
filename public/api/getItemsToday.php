@@ -91,8 +91,10 @@ function getItemsToday($params){
     $found=[];
     $today =[];
     foreach ($items as $item){
-        $found[] =$item->id;
-        $today[]=$item;
+        if (!in_array ( $item->id, $found) ){
+            $found[] =$item->id;
+            $today[]=$item;
+        }
     }
     // now add all those which are not in quick menu
     $sql = 'SELECT i.* FROM items AS i
@@ -110,6 +112,7 @@ function getItemsToday($params){
     $items = sqlReturnObjectMany($sql, $data);
     foreach ($items as $item){
         if (!in_array ( $item->id, $found) ){
+           $found[] =$item->id;
            $today[] = $item;
         }
     }

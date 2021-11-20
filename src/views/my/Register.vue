@@ -83,17 +83,20 @@
 <script>
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
+import { authorMixin } from '@/mixins/AuthorMixin.js'
+
 import { required } from 'vuelidate/lib/validators'
 
 export default {
   props: ['team_key'],
+  mixins: [authorMixin],
   data() {
     return {
-      teamkey: 'MYFWS',
-      firstname: 'fred',
-      lastname: 'fromo',
-      email: 'from@somethe.ong',
-      password: 'somegarbage',
+      teamkey: null,
+      firstname: null,
+      lastname: null,
+      email: null,
+      password: null,
       submitted: false,
       saved: false
     }
@@ -120,20 +123,18 @@ export default {
           let res = await AuthorService.register(params)
           console.log(res)
           if (res.data.content) {
-            this.user = res.data.content
-            this.user.token = res.data.token
-            this.user.expires = res.data.content.expires * 1000
+            var person = res.data.content
+            person.token = res.data.token
+            person.expires = res.data.content.expires * 1000
             var date = new Date()
             this.user.now = date.getTime()
-            console.log(this.user)
-            this.$store.dispatch('loginUser', [this.user])
-            this.team = await AuthorService.getTeam(this.user.uid)
-            this.$store.dispatch('setTeam', [this.viewing.team.tid])
+            console.log(person)
+            this.$store.dispatch('loginUser', [person])
             this.$router.push({
               name: 'myToday',
               params: {
-                uid: this.user.uid,
-                tid: this.viewing.team.tid
+                uid: person.uid,
+                tid: person.tid
               }
             })
           } else {
